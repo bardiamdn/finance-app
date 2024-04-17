@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Transaction Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <label for="maxExpense">Max Expense Value:</label>
+    <input type="number" id="maxExpense" value="100">
+    <br>
+    <label for="maxIncome">Max Income Value:</label>
+    <input type="number" id="maxIncome" value="100">
+    <br>
+    <label for="dateRange">Date Range (days):</label>
+    <input type="number" id="dateRange" value="30">
+    <br>
+    <label for="numberOfCategories">Number of Categories:</label>
+    <input type="number" id="numberOfCategories" value="10">
+    <br>
+    <label for="numberOfAccounts">Number of Accounts:</label>
+    <input type="number" id="numberOfAccounts" value="5">
+    <br>
+    <button onclick="generateAndPlot()">Generate Data</button>
+    <canvas id="myChart" width="400" height="400"></canvas>
+
+    <script>
+        let myChart;
+        const randomExpenseCat = [
+            "Housing", "Utilities", "Groceries", "Transportation", "Insurance", "Healthcare", "Education", "Childcare",
+            "Dining", "Entertainment", "Internet", "Phone", "Clothing", "Personal Care", "Fitness", "Household",
+            "Pets", "Maintenance", "Savings", "Retirement", "Debt", "Gifts", "Travel", "Repairs", "Taxes",
+            "HOA (Homeowners Association)", "Furniture", "Hobbies", "Electronics", "Subscriptions", "Legal",
+            "Taxes", "Improvement", "Charity", "Coffee/Tea", "Alcohol", "Office", "Reading", "Diapers", "School",
+            "Parking", "Furniture", "Coffee/Tea", "Alcohol", "Office", "Reading", "Diapers", "School", "Parking",
+            "Misc."
+        ];
+
+        const randomIncomeCat = [
+            "Salary/Wages", "Freelance Income", "Business Profits", "Rental Income", "Investment Dividends",
+            "Interest Income", "Capital Gains", "Royalties", "Commission", "Tips/Gratuities", "Bonuses",
+            "Alimony/Child Support", "Social Security Benefits", "Pension", "Annuities", "Disability Income",
+            "Trust Distributions", "Scholarships/Grants", "Gambling Winnings", "Contest Prizes",
+            "Rental Property Sales", "Inheritance", "Gifts", "Refunds/Rebates", "Side Gig/Etsy Sales"
+        ];
+
+        const randomAccount = [
+            "Checking Account", "Savings Account", "Credit Card Account", "Investment Account", "Retirement Account",
+            "Emergency Fund", "College Fund", "Health Savings Account (HSA)", "Flexible Spending Account (FSA)",
+            "529 Plan", "Money Market Account", "Certificate of Deposit (CD)", "Brokerage Account", "Trust Fund",
+            "Virtual Wallet"
+        ];
+
+        function getRandomNumber(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function getRandomCategory(categories) {
+            return categories[Math.floor(Math.random() * categories.length)];
+        }
+
+        function getRandomAccount() {
+            return randomAccount[Math.floor(Math.random() * randomAccount.length)];
+        }
+
+        function generateTransactionData(maxExpense, maxIncome, dateRange, numberOfCategories, numberOfAccounts) {
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - dateRange);
+            const endDate = new Date();
+            const data = [];
+            for (let i = 0; i < numberOfCategories; i++) {
+                const category = getRandomCategory(i % 2 == 0 ? randomExpenseCat : randomIncomeCat);
+                const maxTransaction = category in randomExpenseCat ? maxExpense : maxIncome;
+                const categoryData = [];
+                for (let k = 0; k < dateRange; k++) {
+                    const amount = getRandomNumber(0, maxTransaction);
+                    const date = new Date(startDate.getTime() + k * 24 * 60 * 60 * 1000);
+                    categoryData.push({ amount, date });
+                }
+                data.push({ category, categoryData });
+            }
+            return data;
+        }
+
+        function generateAndPlot() {
+            const maxExpense = parseInt(document.getElementById('maxExpense').value);
+            const maxIncome = parseInt(document.getElementById('maxIncome').value);
+            const dateRange = parseInt(document.getElementById('dateRange').value);
+            const numberOfCategories = parseInt(document.getElementById('numberOfCategories').value);
+            const numberOfAccounts = parseInt(document.getElementById('numberOfAccounts').value);
+            const transactionData = generateTransactionData(maxExpense, maxIncome, dateRange, numberOfCategories, numberOfAccounts);
+
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            // Prepare data for plotting
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const allDates = Array.from({ length: dateRange }, (_, i) => new Date(Date.now() - i * 24 * 60 * 60 * 1000));
+            const datasets = [];
+
+            transactionData.forEach(({ category, categoryData }) => {
+                const data = allDates.map(date => {
+                    const transaction = categoryData.find(t => t.date.toDateString() === date.toDateString());
+                    return transaction ? transaction.amount : 0;
+                });
+
+                datasets.push({
+                    label: category,
+                    data: data,
+                    backgroundColor: randomExpenseCat.includes(category) ? 'rgba(255, 99, 132, 0.5)' : 'rgba(75, 192, 192, 0.5)',
+                    borderColor: randomExpenseCat.includes(category) ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                });
+            });
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: allDates.map(date => date.toLocaleDateString()),
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Date'
+                            }
+                        }],
+                        yAxes: [{
+                            stacked: true,
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Transaction Amount'
+                            }
+                        }]
+                    }
+                }
+            });
+            dataset = []
+        }
+    </script>
+</body>
+</html>
+
