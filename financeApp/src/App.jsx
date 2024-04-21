@@ -23,8 +23,8 @@ function App() {
 	const [token, setToken] = useState(null);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-	const apiUrl = 'https://api.madanilab.site';
-	// const apiUrl = 'http://192.168.1.111:3000';
+	// const apiUrl = 'https://api.madanilab.site';
+	const apiUrl = 'http://192.168.1.111:3000';
 	const config = {
 		headers: {
 			Authorization: token,

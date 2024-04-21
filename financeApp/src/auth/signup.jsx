@@ -18,8 +18,8 @@ import axios from 'axios';
 
 import './auth.css';
 
-const apiUrl = 'https://api.madanilab.site';
-// const apiUrl = 'https://192.168.1.111:3000';
+// const apiUrl = 'https://api.madanilab.site';
+const apiUrl = 'https://192.168.1.111:3000';
 
 const formSchema = z.object({
   username: z.string().min(3, {
