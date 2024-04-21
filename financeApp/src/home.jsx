@@ -14,8 +14,8 @@ import { TotalBalance, IncomeExpenseBalance, Last90Days, AccountsAnalyticPie } f
 import { History, CategoryAnalytic, IncomeSankey } from "./components/pages/analytics";
 import { CategoryLegend } from "./components/pages/category-legend";
 
-const apiUrl = 'https://api.madanilab.site';
-// const apiUrl = 'http://192.168.1.111:3000';
+// const apiUrl = 'https://api.madanilab.site';
+const apiUrl = 'http://192.168.1.111:3000';
 
 export const DataContext = createContext();
 

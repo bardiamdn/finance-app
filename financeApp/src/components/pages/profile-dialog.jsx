@@ -28,8 +28,8 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 
-// const apiUrl = 'http://192.168.1.111:3000';
-const apiUrl = 'https://api.madanilab.site';
+const apiUrl = 'http://192.168.1.111:3000';
+// const apiUrl = 'https://api.madanilab.site';
 
 export function ProfileDialog() {
     const { setTheme } = useTheme();
