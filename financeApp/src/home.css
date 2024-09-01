@@ -1,4 +1,5 @@
 .main {
+    position: relative;
     display: grid;
     grid-template-columns: 250px 1fr;
     align-items: start;
@@ -17,10 +18,13 @@
 }
 
 .add-transaction {
-    grid-row: 1;
+    position: sticky;
+    top: 161px;
+    left: 0;
+    /* grid-row: 1; */
     /* margin-top: 30px; */
-    align-self: center;
-    justify-self: center;
+    /* align-self: center;
+    justify-self: center; */
     /* align-items: start;
     justify-content: start; */
 }
