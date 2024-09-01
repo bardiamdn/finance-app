@@ -75,7 +75,7 @@ const LoginPage = () => {
         setLocalStorage(token, response.data.userId, response.data.username);
 
         redirect("/home");
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((error) => {
         console.error("Error logging in:", error);
