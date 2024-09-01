@@ -19,8 +19,8 @@ import axios from 'axios';
 
 import './auth.css';
 
-// const apiUrl = 'https://api.madanilab.site';
-const apiUrl = 'http://192.168.1.111:3000';
+const mode = import.meta.env.VITE_MODE
+const apiUrl = mode === 'production'? import.meta.env.VITE_API_URL_PROD : import.meta.env.VITE_API_URL_DEV
 
 const formSchema = z.object({
 	username: z.string().min(3, {
@@ -61,8 +61,8 @@ const LoginPage = () => {
         await axios.post(apiUrl+'/auth/login', values, {
 			headers: {
 				'Content-Type': 'application/json',
-				'CF-Access-Client-Id': '06b0630f66b18f473a617819261e2e6a.access',
-				'CF-Access-Client-Secret': '2554796ee90aee81b35787f4d427b86bd1d0cece38c6d9d8bee9336b88b52eb6'
+				'CF-Access-Client-Id': import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
+				'CF-Access-Client-Secret': import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET
 			},
         })
         .then(response => {

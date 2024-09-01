@@ -28,8 +28,8 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 
-const apiUrl = 'http://192.168.1.111:3000';
-// const apiUrl = 'https://api.madanilab.site';
+const mode = import.meta.env.VITE_MODE
+const apiUrl = mode === 'production'? import.meta.env.VITE_API_URL_PROD : import.meta.env.VITE_API_URL_DEV
 
 export function ProfileDialog() {
     const { setTheme } = useTheme();
