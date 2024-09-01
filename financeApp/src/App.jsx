@@ -38,9 +38,9 @@ function App() {
     headers: {
       Authorization: token,
       "Content-Type": "application/json",
-      "CF-Access-Client-Id": import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
-      "CF-Access-Client-Secret": import.meta.env
-        .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
+      "CF-Access-Client-Id": "06b0630f66b18f473a617819261e2e6a.access",
+      "CF-Access-Client-Secret":
+        "2554796ee90aee81b35787f4d427b86bd1d0cece38c6d9d8bee9336b88b52eb6",
     },
   };
 
@@ -55,16 +55,7 @@ function App() {
         try {
           const response = await axios.get(
             apiUrl + "/auth/authenticated/" + userId,
-            {
-              headers: {
-                Authorization: `Bearer ${storedToken}`,
-                "Content-Type": "application/json",
-                "CF-Access-Client-Id": import.meta.env
-                  .VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
-                "CF-Access-Client-Secret": import.meta.env
-                  .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
-              },
-            }
+            config
           );
           console.log(response);
           if (response.status === 200) {
