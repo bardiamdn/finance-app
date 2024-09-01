@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Currency Converter</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+    
+            .converter {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+    
+            select, input, button {
+                margin: 10px;
+                padding: 8px;
+                font-size: 16px;
+            }
+    
+            button {
+                cursor: pointer;
+            }
+    
+            #result {
+                font-weight: bold;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+<body>
+    <div class="converter">
+        <h2>Currency Converter</h2>
+        <label for="fromCurrency">From:</label>
+        <select id="fromCurrency">
+            <option value="TRY">TRY</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="JPY">JPY</option>
+            <option value="BGN">BGN</option>
+            <option value="CZK">CZK</option>
+            <option value="DKK">DKK</option>
+            <option value="GBP">GBP</option>
+            <option value="HUF">HUF</option>
+            <option value="PLN">PLN</option>
+            <option value="RON">RON</option>
+            <option value="SEK">SEK</option>
+            <option value="CHF">CHF</option>
+            <option value="ISK">ISK</option>
+            <option value="NOK">NOK</option>
+            <option value="HRK">HRK</option>
+            <option value="RUB">RUB</option>
+            <option value="AUD">AUD</option>
+            <option value="BRL">BRL</option>
+            <option value="CNY">CNY</option>
+            <option value="HKD">HKD</option>
+            <option value="IDR">IDR</option>
+            <option value="ILS">ILS</option>
+            <option value="INR">INR</option>
+            <option value="KRW">KRW</option>
+            <option value="MXN">MXN</option>
+            <option value="MYR">MYR</option>
+            <option value="NZD">NZD</option>
+            <option value="PHP">PHP</option>
+            <option value="SGD">SGD</option>
+            <option value="THB">THB</option>
+            <option value="ZAR">ZAR</option>
+            <!-- Add more currency options as needed -->
+        </select>
+    
+        <label for="toCurrency">To:</label>
+        <select id="toCurrency">
+            <option value="TRY">TRY</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="JPY">JPY</option>
+            <option value="BGN">BGN</option>
+            <option value="CZK">CZK</option>
+            <option value="DKK">DKK</option>
+            <option value="GBP">GBP</option>
+            <option value="HUF">HUF</option>
+            <option value="PLN">PLN</option>
+            <option value="RON">RON</option>
+            <option value="SEK">SEK</option>
+            <option value="CHF">CHF</option>
+            <option value="ISK">ISK</option>
+            <option value="NOK">NOK</option>
+            <option value="HRK">HRK</option>
+            <option value="RUB">RUB</option>
+            <option value="AUD">AUD</option>
+            <option value="BRL">BRL</option>
+            <option value="CNY">CNY</option>
+            <option value="HKD">HKD</option>
+            <option value="IDR">IDR</option>
+            <option value="ILS">ILS</option>
+            <option value="INR">INR</option>
+            <option value="KRW">KRW</option>
+            <option value="MXN">MXN</option>
+            <option value="MYR">MYR</option>
+            <option value="NZD">NZD</option>
+            <option value="PHP">PHP</option>
+            <option value="SGD">SGD</option>
+            <option value="THB">THB</option>
+            <option value="ZAR">ZAR</option>
+            <!-- Add more currency options as needed -->
+        </select>
+    
+        <br>
+    
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" placeholder="Enter amount">
+    
+        <br>
+    
+        <button onclick="convertCurrency()">Convert Normal</button>
+        <button onclick="convertCurrencyThroughApi()">Convert API</button>
+    
+        <div id="result"></div>
+    </div>
+    
+    <script>
+        
+        async function convertCurrency() {
+            var fromCurrency = document.getElementById("fromCurrency").value;
+            var toCurrency = document.getElementById("toCurrency").value;
+            var amount = parseFloat(document.getElementById("amount").value);
+            
+            // Make a GET request to an API to get the current exchange rate
+            var apiEndpoint = `https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_88q61L8N7xzzDN2d9teaxz0Qygg0OUtt9VysUeid&currencies=${toCurrency}&base_currency=${fromCurrency}`;
+            try {
+                var response = await fetch(apiEndpoint);
+                console.log(response);
+                var data = await response.json();
+                // Get the exchange rate from the API response
+                var exchangeRate = data.data[toCurrency];
+    
+                
+                // Perform the currency conversion
+                var result = amount * exchangeRate;
+                
+                document.getElementById("result").innerHTML = amount + " " + fromCurrency + " = " + result.toFixed(2) + " " + toCurrency;
+            } catch (error) {
+                console.error("Error fetching exchange rate:", error);
+                document.getElementById("result").innerHTML = "Error fetching exchange rate. Please try again later.";
+            }
+        }
+        async function convertCurrencyThroughApi() {
+            var fromCurrency = document.getElementById("fromCurrency").value;
+            var toCurrency = document.getElementById("toCurrency").value;
+            var amount = parseFloat(document.getElementById("amount").value);
+
+            var apiEndpoint = `https:///api.madanilab.site/auth/authenticated?apikey=fca_live_88q61L8N7xzzDN2d9teaxz0Qygg0OUtt9VysUeid&currencies=${toCurrency}&base_currency=${fromCurrency}`;
+            // var apiEndpoint = 'https://api.madanilab.site/auth/authenticated?apikey=fca_live_88q61L8N7xzzDN2d9teaxz0Qygg0OUtt9VysUeid&currencies=EUR&base_currency=TRY';
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWVkNTU3YzFjNjg0Y2E5OTg5NGFmMzYiLCJpYXQiOjE3MTA0MDY2MDQxODgsImV4cCI6MTcxMDQwNzIwODk4OH0.PQvbnlIPFpDjaR2IJoRF-Msh1VOPo6nde2FB71GPssuMxXVE9xCVy95Lyu7EuQB8EGHGizWMvE79ex7iQRL43xeakhAUBArX9o6-1-u0ciurLwXEGcJjj-Avkpg5cbtOEc2neo7r0XY0EOz_TynbLagvP1fzjqwNYDT9pz339uTloy8WqNBHg5MnXUD6_1cz6k1Qhg_aC38xAFubH6KNoXLuEtGsKNoOmW30YTB_XKs-lpa4YzC-9Xo7oyu3_sHbtFz48iw3HKJcZwaWZAgUUTXRRvNgwai1z1p52KM98A5jJhrkf_tE4T41SHvMv1k8vBqX8JbtJi0WvZjOlqawnUGeVF40FkO8VTf68DCu8fdVGDqcNTfunphISri3halys6wDLmd0rBb5ajC7CN8667NxlEY61X6sr8FHWVnz5WwCxzCApmukcSSuqHZ6ERJ1ZtFJHvm2VLxlxesxsopvAIDyvnmffQeBC6KsbQ2Qxdo77dKgtS6eYV6HORKxYMK1_YVaE5aspWDD92FAxx95A7-q3I5ngyrQrkjYGxg6iEc35lnX--ZXnHSlVS3ICebmm-v1F3JNu_4tj30NtXJAtU00OZXkuSzQZWY16sf4MrjvvLKa2OEvnKHjpSIwH_kX9iyiV31QnoHL9jwLtG3mKALki6K76dA09894V0Lf_mM',
+                // 'Access-Control-Allow-Origin': 'https://api.madanilab.site',
+                'CF-Access-Client-Id': '06b0630f66b18f473a617819261e2e6a.access',
+                'CF-Access-Client-Secret': '2554796ee90aee81b35787f4d427b86bd1d0cece38c6d9d8bee9336b88b52eb6'
+            }
+            
+            try {
+                var response = await fetch(apiEndpoint, {
+                    method: 'GET',
+                    headers: headers
+			    });
+                console.log(response);
+                var data = await response.json();
+                // Get the exchange rate from the API response
+                var exchangeRate = data.data[toCurrency];
+    
+                
+                // Perform the currency conversion
+                var result = amount * exchangeRate;
+    
+                document.getElementById("result").innerHTML = amount + " " + fromCurrency + " = " + result.toFixed(2) + " " + toCurrency;
+            } catch (error) {
+                console.error("Error fetching exchange rate:", error);
+                document.getElementById("result").innerHTML = "Error fetching exchange rate. Please try again later.";
+            }
+        }
+    </script>
+    
+    </body>
+    </html>
