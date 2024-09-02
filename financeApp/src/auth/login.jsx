@@ -24,6 +24,10 @@ const apiUrl =
   mode === "production"
     ? import.meta.env.VITE_API_URL_PROD
     : import.meta.env.VITE_API_URL_DEV;
+const cfAuth = {
+  clientId: import.meta.env.VITE_PUBLIC_CF_Access_Client_Id,
+  clientSecret: import.meta.env.VITE_PUBLIC_CF_Access_Client_Secret,
+};
 
 const formSchema = z.object({
   username: z.string().min(3, {
@@ -58,15 +62,12 @@ const LoginPage = () => {
       setLoading(false);
     }, 5000);
 
-    console.log("access", import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_ID);
     await axios
       .post(apiUrl + "/auth/login", values, {
         headers: {
           "Content-Type": "application/json",
-          "CF-Access-Client-Id": import.meta.env
-            .VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
-          "CF-Access-Client-Secret": import.meta.env
-            .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
+          "CF-Access-Client-Id": cfAuth.clientId,
+          "CF-Access-Client-Secret": cfAuth.clientSecret,
         },
       })
       .then((response) => {
