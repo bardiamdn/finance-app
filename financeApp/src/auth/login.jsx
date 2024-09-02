@@ -25,6 +25,9 @@ const apiUrl =
     ? import.meta.env.VITE_API_URL_PROD
     : import.meta.env.VITE_API_URL_DEV;
 
+const cfId = import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_ID;
+const cfSecret = import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET;
+
 const formSchema = z.object({
   username: z.string().min(3, {
     message: "Username must be at least 3 characters.",
@@ -63,10 +66,8 @@ const LoginPage = () => {
       .post(apiUrl + "/auth/login", values, {
         headers: {
           "Content-Type": "application/json",
-          "CF-Access-Client-Id": import.meta.env
-            .VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
-          "CF-Access-Client-Secret": import.meta.env
-            .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
+          "CF-Access-Client-Id": cfId,
+          "CF-Access-Client-Secret": cfSecret,
         },
       })
       .then((response) => {

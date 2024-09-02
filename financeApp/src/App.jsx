@@ -53,7 +53,7 @@ function App() {
         setToken(storedToken);
 
         try {
-          console.log(config);
+          console.log("CONF: ", config);
           const response = await axios.get(
             apiUrl + "/auth/authenticated/" + userId,
             config
