@@ -34,9 +34,6 @@ const apiUrl =
     ? import.meta.env.VITE_API_URL_PROD
     : import.meta.env.VITE_API_URL_DEV;
 
-const cfId = import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_ID;
-const cfSecret = import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET;
-
 export const DataContext = createContext();
 
 const home = () => {
@@ -69,8 +66,9 @@ const home = () => {
       Authorization: token,
       "Content-Type": "application/json",
       "X-User-Timezone": userTimeZone,
-      "CF-Access-Client-Id": cfId,
-      "CF-Access-Client-Secret": cfSecret,
+      "CF-Access-Client-Id": "06b0630f66b18f473a617819261e2e6a.access",
+      "CF-Access-Client-Secret":
+        "2554796ee90aee81b35787f4d427b86bd1d0cece38c6d9d8bee9336b88b52eb6",
     },
   };
   async function getProfileData(userId) {

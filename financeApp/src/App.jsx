@@ -38,9 +38,9 @@ function App() {
     headers: {
       Authorization: token,
       "Content-Type": "application/json",
-      "CF-Access-Client-Id": import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
-      "CF-Access-Client-Secret": import.meta.env
-        .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
+      "CF-Access-Client-Id": "06b0630f66b18f473a617819261e2e6a.access",
+      "CF-Access-Client-Secret":
+        "2554796ee90aee81b35787f4d427b86bd1d0cece38c6d9d8bee9336b88b52eb6",
     },
   };
 
@@ -71,11 +71,11 @@ function App() {
         // console.log('isAuthenticated: true',token); // it should change to isauthenticated to be secure
 
         // window.location.reload();
-        return redirect("/home");
+        return <Navigate to="/home" />;
       } else {
         setIsAuthenticated(false);
         console.log("there is no stored token");
-        return redirect("/login");
+        return <Navigate to="/login" />;
       }
     };
     getBearerToken();
