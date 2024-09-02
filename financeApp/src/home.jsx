@@ -61,16 +61,19 @@ const home = () => {
 
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   // console.log("User Time Zone", userTimeZone)
-  const config = {
-    headers: {
-      Authorization: token,
-      "Content-Type": "application/json",
-      "X-User-Timezone": userTimeZone,
-      "CF-Access-Client-Id": "06b0630f66b18f473a617819261e2e6a.access",
-      "CF-Access-Client-Secret":
-        "2554796ee90aee81b35787f4d427b86bd1d0cece38c6d9d8bee9336b88b52eb6",
-    },
-  };
+  const config = token
+    ? {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+          "X-User-Timezone": userTimeZone,
+          "CF-Access-Client-Id": import.meta.env
+            .VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
+          "CF-Access-Client-Secret": import.meta.env
+            .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
+        },
+      }
+    : null;
   async function getProfileData(userId) {
     try {
       if (token && userId) {
