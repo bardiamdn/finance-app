@@ -34,39 +34,31 @@ function App() {
     mode === "production"
       ? import.meta.env.VITE_API_URL_PROD
       : import.meta.env.VITE_API_URL_DEV;
-  const config = {
-    headers: {
-      Authorization: token,
-      "Content-Type": "application/json",
-      "CF-Access-Client-Id": import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
-      "CF-Access-Client-Secret": import.meta.env
-        .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
-    },
+  const cfAuth = {
+    clientId: import.meta.env.VITE_PUBLIC_CF_Access_Client_Id,
+    clientSecret: import.meta.env.VITE_PUBLIC_CF_Access_Client_Secret,
   };
 
   useLayoutEffect(() => {
-    const getBearerToken = async () => {
+    const checkAuth = async () => {
       const storedToken = localStorage.getItem("FinanceMadaniLabBearerToken");
       const userId = localStorage.getItem("FinanceMadaniLabUserId");
 
       if (storedToken) {
-        setToken(storedToken);
+        setToken("Bearer " + storedToken);
 
         try {
           const response = await axios.get(
             apiUrl + "/auth/authenticated/" + userId,
             {
               headers: {
-                Authorization: `Bearer ${storedToken}`,
+                authorization: "Bearer " + storedToken,
                 "Content-Type": "application/json",
-                "CF-Access-Client-Id": import.meta.env
-                  .VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
-                "CF-Access-Client-Secret": import.meta.env
-                  .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
+                "CF-Access-Client-Id": cfAuth.clientId,
+                "CF-Access-Client-Secret": cfAuth.clientSecret,
               },
             }
           );
-          console.log(response);
           if (response.status === 200) {
             setIsAuthenticated(true);
           } else {
@@ -82,11 +74,11 @@ function App() {
         return redirect("/home");
       } else {
         setIsAuthenticated(false);
-        console.log("there is no stored token");
+        console.log("Missing token");
         return redirect("/login");
       }
     };
-    getBearerToken();
+    checkAuth();
   }, [token]);
 
   return (

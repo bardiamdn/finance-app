@@ -33,6 +33,10 @@ const apiUrl =
   mode === "production"
     ? import.meta.env.VITE_API_URL_PROD
     : import.meta.env.VITE_API_URL_DEV;
+const cfAuth = {
+  clientId: import.meta.env.VITE_PUBLIC_CF_Access_Client_Id,
+  clientSecret: import.meta.env.VITE_PUBLIC_CF_Access_Client_Secret,
+};
 
 export const DataContext = createContext();
 
@@ -61,16 +65,17 @@ const home = () => {
 
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   // console.log("User Time Zone", userTimeZone)
-  const config = {
-    headers: {
-      Authorization: token,
-      "Content-Type": "application/json",
-      "X-User-Timezone": userTimeZone,
-      "CF-Access-Client-Id": import.meta.env.VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
-      "CF-Access-Client-Secret": import.meta.env
-        .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
-    },
-  };
+  const config = token
+    ? {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+          "X-User-Timezone": userTimeZone,
+          "CF-Access-Client-Id": cfAuth.clientId,
+          "CF-Access-Client-Secret": cfAuth.clientSecret,
+        },
+      }
+    : null;
   async function getProfileData(userId) {
     try {
       if (token && userId) {
@@ -107,9 +112,7 @@ const home = () => {
     setLoading(true);
     if (userData) {
       getBalances();
-      console.log("userData", userData);
       setLoading(false);
-      console.log("balanceData from Home", balanceData);
     }
   }, [userData, update]);
 
