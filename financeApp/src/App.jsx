@@ -34,18 +34,9 @@ function App() {
     mode === "production"
       ? import.meta.env.VITE_API_URL_PROD
       : import.meta.env.VITE_API_URL_DEV;
-  const config = {
-    headers: {
-      Authorization: token,
-      "Content-Type": "application/json",
-      "CF-Access-Client-Id": "06b0630f66b18f473a617819261e2e6a.access",
-      "CF-Access-Client-Secret":
-        "2554796ee90aee81b35787f4d427b86bd1d0cece38c6d9d8bee9336b88b52eb6",
-    },
-  };
 
-  useLayoutEffect(() => {
-    const getBearerToken = async () => {
+  useEffect(() => {
+    const checkAuth = async () => {
       const storedToken = localStorage.getItem("FinanceMadaniLabBearerToken");
       const userId = localStorage.getItem("FinanceMadaniLabUserId");
 
@@ -53,10 +44,18 @@ function App() {
         setToken(storedToken);
 
         try {
-          console.log("CONF: ", config);
           const response = await axios.get(
             apiUrl + "/auth/authenticated/" + userId,
-            config
+            {
+              headers: {
+                authorization: "Bearer " + storedToken,
+                "Content-Type": "application/json",
+                "CF-Access-Client-Id": import.meta.env
+                  .VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
+                "CF-Access-Client-Secret": import.meta.env
+                  .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
+              },
+            }
           );
           console.log(response);
           if (response.status === 200) {
@@ -71,14 +70,14 @@ function App() {
         // console.log('isAuthenticated: true',token); // it should change to isauthenticated to be secure
 
         // window.location.reload();
-        return <Navigate to="/home" />;
+        return redirect("/home");
       } else {
         setIsAuthenticated(false);
         console.log("there is no stored token");
-        return <Navigate to="/login" />;
+        return redirect("/login");
       }
     };
-    getBearerToken();
+    checkAuth();
   }, [token]);
 
   return (

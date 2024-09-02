@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "react-router-dom";
+import { Navigate, redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -63,9 +63,10 @@ const LoginPage = () => {
       .post(apiUrl + "/auth/login", values, {
         headers: {
           "Content-Type": "application/json",
-          "CF-Access-Client-Id": "06b0630f66b18f473a617819261e2e6a.access",
-          "CF-Access-Client-Secret":
-            "2554796ee90aee81b35787f4d427b86bd1d0cece38c6d9d8bee9336b88b52eb6",
+          "CF-Access-Client-Id": import.meta.env
+            .VITE_PUBLIC_CF_ACCESS_CLIENT_ID,
+          "CF-Access-Client-Secret": import.meta.env
+            .VITE_PUBLIC_CF_ACCESS_CLIENT_SECRET,
         },
       })
       .then((response) => {
@@ -75,6 +76,7 @@ const LoginPage = () => {
         token = token.split(" ")[1];
         setLocalStorage(token, response.data.userId, response.data.username);
 
+        // return (window.location.href = "/home");
         redirect("/home");
         window.location.reload();
       })
