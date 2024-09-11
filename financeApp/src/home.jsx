@@ -1,31 +1,16 @@
-import React, {
-  useState,
-  useEffect,
-  useLayoutEffect,
-  createContext,
-} from "react";
+import { useState, useEffect, useLayoutEffect, createContext } from "react";
 import axios from "axios";
-// import dotenv from 'dotenv'
-//Shadcn
-import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/sonner";
-
-import "./home.css";
+import "./Home.scss";
 
 // components
 import { AddTransaction } from "@/components/pages/transaction-dialog";
-import { SidebarAccordion } from "@/components/pages/sidebar-accordion";
-import {
-  TotalBalance,
-  IncomeExpenseBalance,
-  Last90Days,
-  AccountsAnalyticPie,
-} from "@/components/pages/top-analytic";
-import {
-  History,
-  CategoryAnalytic,
-  IncomeSankey,
-} from "@/components/pages/analytics";
+import TotalBalance from "./components/pages/TotalBalance";
+import IncomeExpenseBalance from "./components/pages/IncomeExpense";
+import AccountsAnalyticPie from "./components/pages/Accounts";
+import Last90Days from "./components/pages/LastDays";
+import History from "./components/pages/History";
+import CategoryAnalytic from "./components/pages/CategoryAnalytics";
+import IncomeSankey from "./components/pages/IncomeSankey";
 import { CategoryLegend } from "@/components/pages/category-legend";
 
 const mode = import.meta.env.VITE_MODE;
@@ -40,7 +25,7 @@ const cfAuth = {
 
 export const DataContext = createContext();
 
-const home = () => {
+export default function Home() {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -138,22 +123,17 @@ const home = () => {
         }}
       >
         <div className="main">
-          {/* <div className="sidebar"> */}
           <div className="add-transaction">
             <AddTransaction />
           </div>
-          {/* <div className="menu">
-                        <SidebarAccordion />
-                    </div> */}
-          {/* </div> */}
-          <div className="page">
+          <div className="top-section">
             <div className="total-balance">
               <TotalBalance />
             </div>
             <div className="income-expense-balance">
               <IncomeExpenseBalance />
             </div>
-            <div className="accounts-analytic">
+            <div className="account-analytic">
               <AccountsAnalyticPie />
             </div>
             <div className="last-days">
@@ -162,6 +142,8 @@ const home = () => {
             <div className="category-legend">
               <CategoryLegend />
             </div>
+          </div>
+          <div className="bottom-section">
             <div className="category-analytic">
               <CategoryAnalytic />
             </div>
@@ -176,6 +158,4 @@ const home = () => {
       </DataContext.Provider>
     </>
   );
-};
-
-export default home;
+}

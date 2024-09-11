@@ -48,7 +48,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from "@/components/ui/calendar";
 
 // context
-import { DataContext } from "@/home";
+import { DataContext } from "@/Home";
 
 // icons
 import { LuPlusSquare } from "react-icons/lu";
@@ -185,10 +185,12 @@ export function AddTransaction() {
   }
   return (
     <Dialog>
-      <DialogTrigger as="button" className="w-[180px] h-[40px]">
-        <Badge className="w-[180px] h-[40px] flex justify-center items-center">
-          <LuPlus className="mr-3 h-5 w-5" />
-          <p style={{ fontSize: "small", margin: "0" }}>Add Transaction</p>
+      <DialogTrigger as="button" className="w-[200px] h-[50px]">
+        <Badge className="w-full h-full flex justify-center items-center rounded-xl p-2">
+          <LuPlus className="mr-1 h-7 w-7" />
+          <p style={{ margin: "0" }} className="text-lg font-semibold">
+            Add Transaction
+          </p>
         </Badge>
       </DialogTrigger>
 

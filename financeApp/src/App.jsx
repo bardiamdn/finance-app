@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 
 // Routes
-import Home from "./home";
+import Home from "./Home";
 import Login from "./auth/login";
 import Signup from "./auth/signup";
 
