@@ -39,7 +39,6 @@ export default function IncomeSankey() {
         apiUrl + "/api/balance/sankey/" + userId + `?period=${dataPeriod}`,
         config
       );
-      console.log(result.data.sankeyData);
 
       if (
         result.status === 200 &&
@@ -193,7 +192,6 @@ export default function IncomeSankey() {
           { source: "Inflow", target: "Total Income", value: incomeAmount }
         );
         setSankeyData({ nodes, links });
-        console.log({ nodes, links });
         // nodes = [];
         // links = [];
         setLoading(false);
@@ -201,7 +199,7 @@ export default function IncomeSankey() {
         setLoading(true);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
     }
   }
@@ -220,9 +218,9 @@ export default function IncomeSankey() {
       <div className=" flex flex-row justify-between items-center">
         <CardHeader className=" w-[50%] flex items-start">
           <CardTitle>Cash Flow</CardTitle>
-          <CardDescription>
+          {/* <CardDescription>
             Please use light mode for better quality of data
-          </CardDescription>
+          </CardDescription> */}
         </CardHeader>
         <Select
           onValueChange={(value) => {

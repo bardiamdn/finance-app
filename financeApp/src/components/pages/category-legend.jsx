@@ -36,7 +36,7 @@ import { colors, myColors } from "@/components/ui/colors";
 
 export function CategoryLegend() {
   // context variable
-  const { apiUrl, config, userData, setUserData, userId } =
+  const { apiUrl, config, userData, setUserData, userId, setDialogIsOpen } =
     useContext(DataContext);
   // states
   const [newCategoryData, setNewCategoryData] = useState({
@@ -69,7 +69,6 @@ export function CategoryLegend() {
           )
           .then((response) => {
             setUserData(response.data.data);
-            // console.log(response)
           });
       } catch (error) {
         console.error("Error posting data:", error);
@@ -134,7 +133,10 @@ export function CategoryLegend() {
         <CardHeader className="w-[50%] flex items-start">
           <CardTitle>Categoies</CardTitle>
         </CardHeader>
-        <Dialog className="w-[50%] flex items-end">
+        <Dialog
+          onOpenChange={(open) => setDialogIsOpen(open)}
+          className="w-[50%] flex items-end"
+        >
           <DialogTrigger>
             <Badge
               className="w-[50px] h-[35px] mt-[15px] mr-[30px] justify-center align-center hover:bg-accent"
@@ -271,22 +273,22 @@ export function CategoryLegend() {
         </Dialog>
       </div>
       <CardContent className="flex flex-row h-[100%] w-[100%]">
-        <div className="flex flex-col justify-start items-start ml-[25px]">
-          <div className="flex flex-row align-center justify-center items-center mb-4">
+        <div className="w-[50%] flex flex-col justify-start items-start ml-[25px]">
+          <div className="w-full flex flex-row align-center justify-center items-center mb-4">
             <div
-              className="w-[70px] h-[0px]"
+              className="w-[40%] h-[0px]"
               style={{ borderBottom: "0.5px solid #9494944d" }}
             ></div>
             <div>
               <p className="mr-2 ml-2 text-sm text-muted-foreground">Expense</p>
             </div>
             <div
-              className="w-[70px] h-[0px]"
+              className="w-[40%] h-[0px]"
               style={{ borderBottom: "0.5px solid #9494944d" }}
             ></div>
           </div>
-          <ScrollArea className="h-[210px] w-[260px]">
-            <Dialog>
+          <ScrollArea className="h-[210px] w-full">
+            <Dialog onOpenChange={(open) => setDialogIsOpen(open)}>
               <div className="flex flex-col">
                 {userData.categories.length > 0 ? (
                   userData.categories.map((category, index) => {
@@ -294,11 +296,11 @@ export function CategoryLegend() {
                       return (
                         <DialogTrigger
                           key={index}
-                          className="w-[260px] rounded-md hover:bg-accent"
+                          className=" rounded-md hover:bg-accent mr-2"
                           // style={{border: "1px solid #ffff"}}
                         >
                           <div
-                            className="flex flex-row align-center items-center pb-2 pt-2"
+                            className="flex flex-row align-center items-center py-2 pl-2"
                             // style={{border: "1px solid #fff"}}
                             onClick={() => {
                               setCategoryData(category);
@@ -503,22 +505,22 @@ export function CategoryLegend() {
             </Dialog>
           </ScrollArea>
         </div>
-        <div className="flex flex-col justify-start items-start ml-[30px]">
-          <div className="flex flex-row align-center justify-center items-center mb-4">
+        <div className="w-[50%] flex flex-col justify-start items-start ml-[30px]">
+          <div className="w-full flex flex-row align-center justify-center items-center mb-4">
             <div
-              className="w-[70px] h-[0px]"
+              className="w-[40%] h-[0px]"
               style={{ borderBottom: "0.5px solid #9494944d" }}
             ></div>
             <div>
               <p className="mr-2 ml-2 text-sm text-muted-foreground">Income</p>
             </div>
             <div
-              className="w-[70px] h-[0px]"
+              className="w-[40%] h-[0px]"
               style={{ borderBottom: "0.5px solid #9494944d" }}
             ></div>
           </div>
-          <ScrollArea className="h-[210px] w-[260px]">
-            <Dialog>
+          <ScrollArea className="h-[210px] w-full">
+            <Dialog onOpenChange={(open) => setDialogIsOpen(open)}>
               <div className="flex flex-col">
                 {userData.categories.length > 0 ? (
                   userData.categories.map((category, index) => {
@@ -526,11 +528,11 @@ export function CategoryLegend() {
                       return (
                         <DialogTrigger
                           key={index}
-                          className="w-[260px] rounded-md hover:bg-accent"
+                          className="rounded-md hover:bg-accent mr-2"
                           // style={{border: "1px solid #ffff"}}
                         >
                           <div
-                            className="flex flex-row align-center items-center pb-2 pt-2"
+                            className="flex flex-row align-center items-center py-2 pl-2"
                             onClick={() => {
                               setCategoryData(category);
                             }}

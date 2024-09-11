@@ -46,8 +46,16 @@ const red = "#ff1d1dbd";
 
 export default function History() {
   // context variable
-  const { apiUrl, update, setUpdate, config, userData, token, userId } =
-    useContext(DataContext);
+  const {
+    apiUrl,
+    update,
+    setUpdate,
+    config,
+    userData,
+    token,
+    userId,
+    setDialogIsOpen,
+  } = useContext(DataContext);
 
   const [historyData, setHistoryData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -128,8 +136,6 @@ export default function History() {
     const { ...rest } = transactionData;
     const updatedData = { ...rest };
 
-    console.log("TransactionData Before Submittion", updatedData);
-
     try {
       if (userId && token && updatedData) {
         axios
@@ -139,7 +145,7 @@ export default function History() {
             config
           )
           .then((response) => {
-            console.log(response);
+            console.log("Updated transaction");
           });
         setUpdate((prevState) => !prevState);
       } else {
@@ -148,7 +154,6 @@ export default function History() {
     } catch (error) {
       console.error("Error adding category:", error);
     }
-    console.log("TransactionData After Submittion", transactionData);
   }
   async function deleteTransaction() {
     try {
@@ -160,7 +165,6 @@ export default function History() {
           transactionData._id,
         config
       );
-      console.log(result);
       setUpdate((prevState) => !prevState);
       // getHistoryData();
     } catch (error) {
@@ -241,7 +245,11 @@ export default function History() {
         <ScrollArea className="flex justify-center align-start w-full h-[1050px] ml-0">
           {historyData ? (
             historyData.map((item, index) => (
-              <Dialog className="w-full" key={index}>
+              <Dialog
+                onOpenChange={(open) => setDialogIsOpen(open)}
+                className="w-full"
+                key={index}
+              >
                 <DialogTrigger
                   className="w-full"
                   onClick={() => setTransactionData(item)}

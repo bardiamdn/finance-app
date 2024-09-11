@@ -143,7 +143,7 @@ export default function CategoryAnalytic() {
       <div className=" flex flex-row justify-between items-center">
         <CardHeader className="w-[50%] flex items-start">
           <CardTitle>Category Analytics</CardTitle>
-          <p className="text-sm text-muted-foreground">Bars as gaps</p>
+          {/* <p className="text-sm text-muted-foreground">Bars as gaps</p> */}
         </CardHeader>
         <Select
           onValueChange={(value) => {
@@ -178,8 +178,8 @@ export default function CategoryAnalytic() {
           </div>
         </div>
       ) : (
-        <CardContent className="flex flex-row justify-center items-center w-[100%] h-full">
-          <div className="flex flex-col w-[75%] h-full">
+        <CardContent className="flex flex-col lg:flex-row justify-center items-center w-full h-full">
+          <div className="flex flex-row lg:flex-col w-full h-[60%] lg:w-[75%] lg:h-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 // width={500}
@@ -229,7 +229,7 @@ export default function CategoryAnalytic() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex flex-col w-[25%] h-[100%]">
+          <div className="flex flex-row lg:flex-col w-full h-[40%] lg:w-[25%] lg:h-[100%]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart
               // width={200} height={200}
@@ -240,7 +240,7 @@ export default function CategoryAnalytic() {
                   cy="50%"
                   labelLine={false}
                   label={renderCustomizedLabel}
-                  outerRadius={80}
+                  // outerRadius={80}
                   fill="#8884d8"
                   dataKey="amount"
                 >
@@ -264,7 +264,7 @@ export default function CategoryAnalytic() {
                   cy="50%"
                   labelLine={false}
                   label={renderCustomizedLabel}
-                  outerRadius={80}
+                  // outerRadius={80}
                   fill="#8884d8"
                   dataKey="amount"
                 >

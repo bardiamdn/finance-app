@@ -46,8 +46,6 @@ export default function Last90Days() {
           });
 
           setNinetyDaysData(data);
-
-          // console.log("90 Days Data:", response.data.data)
           setLoading(false);
         } else if (response.status === 204) {
           setLoading(true);

@@ -10,36 +10,10 @@ import { toast } from "sonner";
 
 // components
 import { Badge } from "@/components/ui/badge";
-import { ToastAction } from "@/components/ui/toast";
-// import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/sonner";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -50,32 +24,19 @@ import { Calendar } from "@/components/ui/calendar";
 // context
 import { DataContext } from "@/Home";
 
-// icons
-import { LuPlusSquare } from "react-icons/lu";
-import { TbSquareRoundedPlusFilled } from "react-icons/tb";
-import { FiEdit3, FiEdit2 } from "react-icons/fi";
-import { MdEdit } from "react-icons/md";
-import { LuPlus } from "react-icons/lu";
 import { FaPlus } from "react-icons/fa";
-import { GoTrash } from "react-icons/go";
-
-// colors
-import { colors } from "@/components/ui/colors";
 
 export function AddTransaction() {
   // context variable
   const {
     apiUrl,
-    update,
     setUpdate,
     config,
     userData,
-    setUserData,
     token,
     userId,
-    balanceData,
-    getBalances,
-    getProfileData,
+    dialogIsOpen,
+    setDialogIsOpen,
   } = useContext(DataContext);
   // loading userData
   const [loading, setLoading] = useState(true);
@@ -119,7 +80,6 @@ export function AddTransaction() {
 
   const formInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setTransactionData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -142,7 +102,6 @@ export function AddTransaction() {
           transactionData,
           config
         );
-        console.log("From Tansaction Submit", response);
 
         setTransactionData({
           userId: userId,
@@ -177,23 +136,23 @@ export function AddTransaction() {
     } catch (error) {
       console.error("Error adding category:", error);
     }
-    console.log("TransactionData After Submittion", transactionData);
   }
 
   if (loading) {
     return <Skeleton className="w-[180px] h-[40px]"></Skeleton>;
   }
   return (
-    <Dialog>
-      <DialogTrigger as="button" className="w-[200px] h-[50px]">
-        <Badge className="w-full h-full flex justify-center items-center rounded-xl p-2">
-          <LuPlus className="mr-1 h-7 w-7" />
-          <p style={{ margin: "0" }} className="text-lg font-semibold">
-            Add Transaction
-          </p>
-        </Badge>
-      </DialogTrigger>
-
+    <Dialog onOpenChange={(open) => setDialogIsOpen(open)}>
+      {!dialogIsOpen && (
+        <DialogTrigger as="button" className="w-[200px] h-[50px]">
+          <Badge className="w-full h-full flex justify-center items-center rounded-xl p-2">
+            <FaPlus className="mr-1 h-6 w-6" />
+            <p style={{ margin: "0" }} className="text-lg font-semibold">
+              Add Transaction
+            </p>
+          </Badge>
+        </DialogTrigger>
+      )}
       <DialogContent className="h-[80%%] w-[100%]">
         {userData.accounts.length > 0 ? (
           <Tabs

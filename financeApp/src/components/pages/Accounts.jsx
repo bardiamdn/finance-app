@@ -35,8 +35,17 @@ import { colors, myColors } from "@/components/ui/colors";
 
 export default function AccountsAnalyticPie() {
   // context variable
-  const { apiUrl, update, config, userData, setUserData, token, userId } =
-    useContext(DataContext);
+  const {
+    apiUrl,
+    update,
+    config,
+    userData,
+    setUserData,
+    token,
+    userId,
+    dialogIsOpen,
+    setDialogIsOpen,
+  } = useContext(DataContext);
 
   const [accountData, setAccountData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -123,11 +132,6 @@ export default function AccountsAnalyticPie() {
             accountColor: selectedAccount.accountColor,
           };
         } else {
-          console.log(
-            "Nothing was updated, because account with id: ",
-            accountId,
-            "was not found."
-          );
           return userData;
         }
 
@@ -199,7 +203,11 @@ export default function AccountsAnalyticPie() {
         <CardHeader className="w-[50%] flex items-start">
           <CardTitle>Accounts</CardTitle>
         </CardHeader>
-        <Dialog className="w-[50%] flex items-end">
+        <Dialog
+          // open={dialogIsOpen}
+          onOpenChange={(open) => setDialogIsOpen(open)}
+          className="w-[50%] flex items-end"
+        >
           <DialogTrigger>
             <Badge
               className="w-[50px] h-[35px] mt-[15px] mr-[30px] justify-center align-center hover:bg-accent"
@@ -295,7 +303,11 @@ export default function AccountsAnalyticPie() {
           <ScrollArea className="h-[90%] w-full overflow-hidden">
             {accountData ? (
               accountData.map((account) => (
-                <Dialog key={account._id}>
+                <Dialog
+                  // open={dialogIsOpen}
+                  onOpenChange={(open) => setDialogIsOpen(open)}
+                  key={account._id}
+                >
                   <DialogTrigger
                     onClick={() => {
                       setSelectedAccount(account);

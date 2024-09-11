@@ -32,6 +32,7 @@ export default function Home() {
   const [balanceData, setBalanceData] = useState(null);
   const [update, setUpdate] = useState(false); // updating the components
   const [loading, setLoading] = useState(true);
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
   const signOut = () => {
     localStorage.removeItem("FinanceMadaniLabBearerToken");
@@ -120,6 +121,8 @@ export default function Home() {
           balanceData,
           getBalances,
           getProfileData,
+          dialogIsOpen,
+          setDialogIsOpen,
         }}
       >
         <div className="main">
