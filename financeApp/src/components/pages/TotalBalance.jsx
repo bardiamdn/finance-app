@@ -32,13 +32,19 @@ export default function TotalBalance() {
           Total Balance
         </CardTitle>
       </CardHeader>
-      <CardContent className="w-full h-full flex justify-center items-center font-semibold">
+      <CardContent className="w-full h-full flex justify-center items-center font-bold">
         {balanceData.totalBalance > 0 ? (
-          <p style={{ fontSize: "40px", color: "#25ff1dbd" }}>
+          <p
+            className="lg:text-5xl lg:font-semibold text-3xl"
+            style={{ color: "#25ff1dbd" }}
+          >
             {balanceData.totalBalance.toLocaleString()}
           </p>
         ) : (
-          <p style={{ fontSize: "40px", color: "#ff1d1dbd" }}>
+          <p
+            className="lg:text-5xl lg:font-semibold text-3xl"
+            style={{ color: "#ff1d1dbd" }}
+          >
             {balanceData.totalBalance.toLocaleString()}
           </p>
         )}

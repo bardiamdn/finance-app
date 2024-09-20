@@ -23,7 +23,8 @@ const green = "#25ff1dbd";
 const red = "#ff1d1dbd";
 export default function Last90Days() {
   // context variable
-  const { apiUrl, update, config, userData, userId } = useContext(DataContext);
+  const { apiUrl, update, config, userData, userId, dims } =
+    useContext(DataContext);
 
   const [ninetyDaysData, setNinetyDaysData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -74,16 +75,18 @@ export default function Last90Days() {
           <BarChart
             data={ninetyDaysData}
             syncId="anyId"
-            margin={{
-              top: 10,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
+            margin={
+              dims.width > 768 && {
+                top: 10,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }
+            }
           >
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <XAxis dataKey="date" />
-            <YAxis />
+            {dims.width > 768 && <YAxis />}
             <Tooltip />
             <Bar type="monotone" dataKey="expense" stroke={red} fill={red} />
             <Bar type="monotone" dataKey="income" stroke={green} fill={green} />
@@ -101,16 +104,18 @@ export default function Last90Days() {
           <AreaChart
             data={ninetyDaysData}
             syncId="anyId"
-            margin={{
-              top: 10,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
+            margin={
+              dims.width > 768 && {
+                top: 10,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }
+            }
           >
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <XAxis dataKey="date" />
-            <YAxis />
+            {dims.width > 768 && <YAxis />}
             <Tooltip />
             <Area
               type="monotone"

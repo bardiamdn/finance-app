@@ -33,6 +33,10 @@ export default function Home() {
   const [update, setUpdate] = useState(false); // updating the components
   const [loading, setLoading] = useState(true);
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
+  const [dims, setDims] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
 
   const signOut = () => {
     localStorage.removeItem("FinanceMadaniLabBearerToken");
@@ -102,6 +106,21 @@ export default function Home() {
     }
   }, [userData, update]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setDims({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   // console.log(userData)
   if (loading) {
     return <div>Loading...</div>;
@@ -123,6 +142,7 @@ export default function Home() {
           getProfileData,
           dialogIsOpen,
           setDialogIsOpen,
+          dims,
         }}
       >
         <div className="main">

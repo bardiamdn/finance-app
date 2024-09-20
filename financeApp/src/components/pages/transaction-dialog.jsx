@@ -1,14 +1,10 @@
-import React, {
-  useContext,
-  useState,
-  useLayoutEffect,
-  useReducer,
-  useEffect,
-} from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "sonner";
+import { format } from "date-fns";
+import { cn } from "../../lib/utils";
 
 // components
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Toaster } from "@/components/ui/sonner";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,6 +16,14 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+// Icons
+import { Calendar as CalendarIcon } from "lucide-react";
 
 // context
 import { DataContext } from "@/Home";
@@ -78,13 +82,13 @@ export function AddTransaction() {
     }
   }, [userData]);
 
-  const formInputChange = (e) => {
-    const { name, value } = e.target;
-    setTransactionData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  // const formInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setTransactionData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
 
   async function submitTransaction() {
     // setTransactionData((prevData) => ({...prevData, date: date}))
@@ -142,26 +146,29 @@ export function AddTransaction() {
     return <Skeleton className="w-[180px] h-[40px]"></Skeleton>;
   }
   return (
-    <Dialog onOpenChange={(open) => setDialogIsOpen(open)}>
+    <Dialog
+      onOpenChange={(open) => setDialogIsOpen(open)}
+      className="h-[90%] max-w-[320px] md:max-w-lg lg:max-w-2xl"
+    >
       {!dialogIsOpen && (
-        <DialogTrigger as="button" className="w-[200px] h-[50px]">
+        <DialogTrigger as="button" className="w-[50px] md:w-[200px] h-[50px]">
           <Badge className="w-full h-full flex justify-center items-center rounded-xl p-2">
-            <FaPlus className="mr-1 h-6 w-6" />
-            <p style={{ margin: "0" }} className="text-lg font-semibold">
+            <FaPlus className="md:mr-1 h-6 w-6" />
+            <p className="text-lg font-semibold m-0 hidden md:block">
               Add Transaction
             </p>
           </Badge>
         </DialogTrigger>
       )}
-      <DialogContent className="h-[80%%] w-[100%]">
+      <DialogContent className="h-[90%] max-w-[320px] md:max-w-lg lg:max-w-2xl">
         {userData.accounts.length > 0 ? (
           <Tabs
             defaultValue={transactionData.accountId}
-            className="h-[80%] w-[526px]"
+            className="h-[80%] w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-2xl"
           >
-            <ScrollArea className="h-[50px] w-[100%] p-1">
-              <TabsList className="flex justify-center align-center items-center">
-                <div className="flex flex-row justify-between align-center">
+            <ScrollArea className="h-[50px] w-full p-1">
+              <TabsList className="flex justify-center items-center">
+                <div className="flex flex-row justify-between">
                   {userData.accounts.map((account, index) => {
                     return (
                       <TabsTrigger
@@ -187,18 +194,16 @@ export function AddTransaction() {
             </ScrollArea>
           </Tabs>
         ) : (
-          <div>There is no accounts, you must have at least one</div>
+          <div>You don&apos;t have any account, you must have at least one</div>
         )}
-        <div className="m-2">
+        <div className="w-full m-2">
           <div className="m-2 mt-0 flex justify-center align center">
             <Input
               style={{
-                height: "70px",
-                width: "60%",
                 fontSize: "30px",
                 textAlign: "center",
               }}
-              className="flex justify-center align-center"
+              className="flex justify-center align-center w-8/12 h-[70px]"
               type="number"
               min="0"
               placeholder="Transaction Amount"
@@ -210,15 +215,57 @@ export function AddTransaction() {
                   amount: e.target.value,
                 }));
               }}
-            ></Input>
+            />
           </div>
-          <div className="flex flex-row justify-start items-start mt-10">
+          <div className="block md:hidden">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-[240px] justify-start text-left font-normal",
+                    !transactionData.date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {transactionData.date ? (
+                    format(transactionData.date, "PPP")
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={transactionData.date}
+                  name="date"
+                  disabled={(date) =>
+                    date > new Date() || date < new Date("1900-01-01")
+                  }
+                  onSelect={(date) => {
+                    date.setHours(12);
+                    date.setMinutes(0);
+                    date.setSeconds(0);
+                    date.setMilliseconds(0);
+                    setTransactionData((prevData) => ({
+                      ...prevData,
+                      date: date,
+                    }));
+                  }}
+                  className="rounded-md border h-[322px] w-[250px]"
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="flex flex-row justify-center sm:justify-between items-start mt-10">
             <div className="flex flex-col justify-start items-start">
               <div className="flex items-center m-2 ml-1">
                 <RadioGroup
                   name="type"
-                  defaultValue="expense"
-                  className="flex flex-row items-center"
+                  defaultValue={transactionData.type}
+                  className="flex flex-row lg:flex-row md:flex-col lg:items-center items-start"
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
@@ -264,131 +311,150 @@ export function AddTransaction() {
                   </div>
                 </RadioGroup>
               </div>
-              <div>
-                <ScrollArea className="h-[298px] w-[231.36px] rounded-md border p-4 mr-6">
-                  <RadioGroup
-                    name="category"
-                    defaultValue={transactionData.categoryId}
-                  >
-                    {userData.categories.length > 0 ? (
-                      transactionData.type === "expense" ? (
-                        userData.categories.map((category, index) => {
-                          if (category.categoryType === "expense") {
-                            return (
-                              <div
-                                className="flex flex-row align-center justify-start h-5"
-                                key={index}
-                              >
-                                {/* <div className="flex items-center space-x-2"> */}
-                                {/* <div  color={category.categoryColor} className={`w-1.5 h-4 mr-1 rounded-md colorDiv justify-center`} style={{backgroundColor: `${category.categoryColor}`}}></div> */}
-                                <RadioGroupItem
-                                  style={{
-                                    backgroundColor: category.categoryColor,
-                                  }}
-                                  className="mr-2"
-                                  name="category"
-                                  value={category._id}
-                                  id={index}
-                                  onClick={() => {
-                                    setTransactionData((prevData) => ({
-                                      ...prevData,
-                                      categoryId: category._id,
-                                      toAccountId: "",
-                                      fromAccountId: "",
-                                    }));
-                                  }}
-                                ></RadioGroupItem>
-                                <Label htmlFor={index}>
-                                  {category.categoryTitle}
-                                </Label>
-                                {/* </div> */}
-                              </div>
-                            );
-                          }
-                        })
-                      ) : transactionData.type === "income" ? (
-                        userData.categories.map((category, index) => {
-                          if (category.categoryType === "income") {
-                            return (
-                              <div
-                                className="flex flex-row align-center justify-start h-5"
-                                key={index}
-                              >
-                                {/* <div className="flex items-center space-x-2"> */}
-                                {/* <div  color={category.categoryColor} className={`w-1.5 h-4 mr-1 rounded-md colorDiv justify-center`} style={{backgroundColor: `${category.categoryColor}`}}></div> */}
-                                <RadioGroupItem
-                                  style={{
-                                    backgroundColor: category.categoryColor,
-                                  }}
-                                  className="mr-2"
-                                  name="category"
-                                  value={category._id}
-                                  id={index}
-                                  onClick={() => {
-                                    setTransactionData((prevData) => ({
-                                      ...prevData,
-                                      categoryId: category._id,
-                                      toAccountId: "",
-                                      fromAccountId: "",
-                                    }));
-                                  }}
-                                ></RadioGroupItem>
-                                <Label htmlFor={index}>
-                                  {category.categoryTitle}
-                                </Label>
-                                {/* </div> */}
-                              </div>
-                            );
-                          }
-                        })
-                      ) : transactionData.type === "transfer" ? (
-                        <>
-                          <div className="mb-2">Transfer to Account</div>
-                          {userData.accounts.map((account, index) => {
-                            return (
-                              <div
-                                className="flex flex-row align-center justify-start h-5"
-                                key={index}
-                              >
-                                {/* <div className="flex items-center space-x-2"> */}
-                                {/* <div  color={account.accountColor} className={`w-1.5 h-4 mr-1 rounded-md colorDiv justify-center`} style={{backgroundColor: `${account.accountColor}`}}></div> */}
-                                <RadioGroupItem
-                                  style={{
-                                    backgroundColor: account.accountColor,
-                                  }}
-                                  className="mr-2"
-                                  name="account"
-                                  value={account._id}
-                                  id={index}
-                                  onClick={() => {
-                                    setTransactionData((prevData) => ({
-                                      ...prevData,
-                                      toAccountId: account._id,
-                                      fromAccountId: "",
-                                    }));
-                                    // const {categoryId, ...rest} = transactionData;
-                                    // setTransactionData(rest);
-                                  }}
-                                ></RadioGroupItem>
-                                <Label htmlFor={index}>
-                                  {account.accountTitle}
-                                </Label>
-                                {/* </div> */}
-                              </div>
-                            );
-                          })}
-                        </>
-                      ) : (
-                        <div>Nothing to SHow Here ...</div>
-                      )
+              <ScrollArea className="lg:h-[298px] lg:w-[231.36px] md:w-[150px] h-[240px] w-full rounded-md border p-4 mr-6">
+                <RadioGroup
+                  name="category"
+                  defaultValue={transactionData.categoryId}
+                >
+                  {userData.categories.length > 0 ? (
+                    transactionData.type === "expense" ? (
+                      userData.categories.map((category, index) => {
+                        if (category.categoryType === "expense") {
+                          return (
+                            <div
+                              className="flex flex-row items-center justify-start"
+                              key={index}
+                            >
+                              <RadioGroupItem
+                                style={{
+                                  backgroundColor: category.categoryColor,
+                                }}
+                                className="w-5 h-5 mr-2"
+                                name="category"
+                                value={category._id}
+                                id={index}
+                                onClick={() => {
+                                  setTransactionData((prevData) => ({
+                                    ...prevData,
+                                    categoryId: category._id,
+                                    toAccountId: "",
+                                    fromAccountId: "",
+                                  }));
+                                }}
+                              />
+                              <Label htmlFor={index} className="bg:text-lg">
+                                {category.categoryTitle}
+                              </Label>
+                            </div>
+                          );
+                        }
+                      })
+                    ) : transactionData.type === "income" ? (
+                      userData.categories.map((category, index) => {
+                        if (category.categoryType === "income") {
+                          return (
+                            <div
+                              className="flex flex-row items-center justify-start"
+                              key={index}
+                            >
+                              <RadioGroupItem
+                                style={{
+                                  backgroundColor: category.categoryColor,
+                                }}
+                                className="w-5 h-5 mr-2"
+                                name="category"
+                                value={category._id}
+                                id={index}
+                                onClick={() => {
+                                  setTransactionData((prevData) => ({
+                                    ...prevData,
+                                    categoryId: category._id,
+                                    toAccountId: "",
+                                    fromAccountId: "",
+                                  }));
+                                }}
+                              />
+                              <Label htmlFor={index} className="bg:text-lg">
+                                {category.categoryTitle}
+                              </Label>
+                            </div>
+                          );
+                        }
+                      })
+                    ) : transactionData.type === "transfer" ? (
+                      <>
+                        <div className="mb-2">Transfer to Account</div>
+                        {userData.accounts.map((account, index) => {
+                          return (
+                            <div
+                              className="flex flex-row items-center justify-start"
+                              key={index}
+                            >
+                              {account._id === transactionData.accountId ? (
+                                <>
+                                  <RadioGroupItem
+                                    style={{
+                                      backgroundColor: account.accountColor,
+                                    }}
+                                    disabled={true}
+                                    className="w-5 h-5 mr-2"
+                                    name="account"
+                                    value={account._id}
+                                    id={index}
+                                    onClick={() => {
+                                      setTransactionData((prevData) => ({
+                                        ...prevData,
+                                        toAccountId: account._id,
+                                        fromAccountId: "",
+                                      }));
+                                      // const {categoryId, ...rest} = transactionData;
+                                      // setTransactionData(rest);
+                                    }}
+                                  ></RadioGroupItem>
+                                  <Label
+                                    htmlFor={index}
+                                    className="bg:text-lg text-gray-600"
+                                  >
+                                    {account.accountTitle}
+                                  </Label>
+                                </>
+                              ) : (
+                                <>
+                                  <RadioGroupItem
+                                    style={{
+                                      backgroundColor: account.accountColor,
+                                    }}
+                                    className="w-5 h-5 mr-2"
+                                    name="account"
+                                    value={account._id}
+                                    id={index}
+                                    onClick={() => {
+                                      setTransactionData((prevData) => ({
+                                        ...prevData,
+                                        toAccountId: account._id,
+                                        fromAccountId: "",
+                                      }));
+                                    }}
+                                  ></RadioGroupItem>
+                                  <Label htmlFor={index} className="bg:text-lg">
+                                    {account.accountTitle}
+                                  </Label>
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </>
                     ) : (
-                      <div>You don't have any categories</div>
-                    )}
-                  </RadioGroup>
-                </ScrollArea>
-              </div>
+                      <div>Nothing to SHow Here ...</div>
+                    )
+                  ) : (
+                    <div>You don&apos;t have any categories</div>
+                  )}
+                </RadioGroup>
+              </ScrollArea>
             </div>
-            <div className=" m-2">
+            <div className="lg:m-2 hidden md:block">
               <Calendar
                 mode="single"
                 selected={transactionData.date}
@@ -414,10 +480,10 @@ export function AddTransaction() {
               />
             </div>
           </div>
-          <div className="flex flex-col align-center justify-center mt-4">
-            <Label className="mb-1 ml-1">Description</Label>
+          <div className="lg:w[450px] w-full flex flex-col items-center mt-4">
+            <Label className="mb-2 ml-1">Description</Label>
             <Input
-              className="w-[508px] h-[70px]"
+              className="w-full h-[70px]"
               name="description"
               value={transactionData.description}
               onChange={(e) => {
@@ -426,7 +492,7 @@ export function AddTransaction() {
                   description: e.target.value,
                 }));
               }}
-            ></Input>
+            />
           </div>
           <div className="flex justify-center align-center m-2 mt-7">
             <Button

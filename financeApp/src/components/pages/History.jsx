@@ -666,7 +666,7 @@ export default function History() {
             <></>
           )}
         </ScrollArea>
-        <Pagination className="felx justify-center align-end items-end h-auto mt-[20px]">
+        <Pagination className="felx justify-center align-end items-end h-auto mt-[20px] w-11/12">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious

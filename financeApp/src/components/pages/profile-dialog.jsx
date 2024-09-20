@@ -69,16 +69,16 @@ export function ProfileDialog() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>@ {username}</DialogTitle>
+          <DialogTitle>Hi {username} 👋</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-row items-center justify-start">
+        {/* <div className="flex flex-row items-center justify-start">
           <Button variant="ghost" className="justify-center mr-[10px]">
             <Pencil className="h-[15px] w-[15px]" />
           </Button>
           <DialogDescription>
             You can change your password and username limited times.
           </DialogDescription>
-        </div>
+        </div> */}
         <div className="p-[20px]">
           <div className="flex flex-row justify-between items-center mt-[15px]">
             <Label>Set Theme</Label>
@@ -135,6 +135,19 @@ export function ProfileDialog() {
                   ))}
                 </ScrollArea>
                 <DropdownMenuItem>Last day of month</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <div>
+            <Label>Selected Currency</Label>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Button></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>
+                  <ScrollArea>Hi</ScrollArea>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

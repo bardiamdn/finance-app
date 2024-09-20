@@ -297,7 +297,7 @@ export default function AccountsAnalyticPie() {
       </div>
       <CardContent
         style={{ width: "100%", height: "250px" }}
-        className="flex flex-row "
+        className="flex flex-row m-0"
       >
         <div style={{ width: "50%", height: "256px" }}>
           <ScrollArea className="h-[90%] w-full overflow-hidden">

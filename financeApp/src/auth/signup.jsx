@@ -29,9 +29,14 @@ const cfAuth = {
 };
 
 const formSchema = z.object({
-  username: z.string().min(3, {
-    message: "Username must be at least 3 characters.",
-  }),
+  username: z
+    .string()
+    .min(3, {
+      message: "Username must be at least 3 characters.",
+    })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      message: "Username can only contain letters and numbers.",
+    }),
   password: z.string().min(5, {
     message: "Password must be at least 5 characters.",
   }),
@@ -93,7 +98,18 @@ const SignupPage = () => {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username" {...field} />
+                    <Input
+                      placeholder="Username"
+                      maxLength={20}
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(
+                          /[^a-zA-Z0-9]/g,
+                          ""
+                        ); // Only allow alphanumeric
+                        field.onChange(value);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage>
                     {form.formState.errors.username?.message}
@@ -108,7 +124,12 @@ const SignupPage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="Password"
+                      maxLength={30}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage>
                     {form.formState.errors.password?.message}
@@ -127,8 +148,9 @@ const SignupPage = () => {
         </Form>
       </div>
       <div className="bottomBtn">
-        <Button variant="secondary" onClick={navigateLogin}>
-          Go to Log In page
+        <p>Already have an account? </p>
+        <Button variant="link" onClick={navigateLogin}>
+          Log In
         </Button>
       </div>
     </div>

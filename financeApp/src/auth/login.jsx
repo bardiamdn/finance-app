@@ -92,9 +92,7 @@ const LoginPage = () => {
   return (
     <div className="main-auth">
       <div className="form">
-        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-          Log In
-        </h2>
+        <h2 className="pb-2 text-3xl font-semibold tracking-tight">Log In</h2>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onLoginSubmit)}
@@ -107,7 +105,18 @@ const LoginPage = () => {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username" {...field} />
+                    <Input
+                      placeholder="Username"
+                      maxLength={20}
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(
+                          /[^a-zA-Z0-9]/g,
+                          ""
+                        ); // Only allow alphanumeric
+                        field.onChange(value);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage>
                     {form.formState.errors.username?.message}
@@ -122,7 +131,12 @@ const LoginPage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="Password"
+                      maxLength={30}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage>
                     {form.formState.errors.password?.message}
@@ -141,8 +155,9 @@ const LoginPage = () => {
         </Form>
       </div>
       <div className="bottomBtn">
-        <Button variant="secondary" onClick={navigateSignup}>
-          Go to Sign Up page
+        <p>Don&apos;t have an account? </p>
+        <Button variant="link" onClick={navigateSignup}>
+          Sign Up
         </Button>
       </div>
     </div>

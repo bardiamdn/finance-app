@@ -27,7 +27,8 @@ const red = "#ff1d1dbd";
 
 export default function IncomeSankey() {
   // context variable
-  const { apiUrl, update, config, userData, userId } = useContext(DataContext);
+  const { apiUrl, update, config, userData, userId, dims } =
+    useContext(DataContext);
 
   const [sankeyData, setSankeyData] = useState(null);
   const [period, setPeriod] = useState("this_month");
@@ -204,9 +205,10 @@ export default function IncomeSankey() {
     }
   }
 
-  useEffect(() => {
-    // setLoading(true);
+  const nodeThickness = Math.max(8, dims.width / 100);
+  const nodeSpacing = Math.max(16, dims.width / 50);
 
+  useEffect(() => {
     getSankeyData(period);
   }, [userData, update]);
 
@@ -248,14 +250,14 @@ export default function IncomeSankey() {
       <CardContent className=" flex justify-center items-center w-[100%] h-full">
         <ResponsiveSankey
           data={sankeyData}
-          margin={{ top: 40, right: 50, bottom: 40, left: 50 }}
+          // margin={{ top: 40, right: 50, bottom: 40, left: 50 }}
           align="justify"
           // colors={{ scheme: 'category10' }}
           colors={(node) => node.nodeColor}
           nodeOpacity={1}
           nodeHoverOthersOpacity={0.35}
-          nodeThickness={14}
-          nodeSpacing={24}
+          nodeThickness={nodeThickness}
+          nodeSpacing={nodeSpacing}
           nodeBorderWidth={0}
           nodeBorderColor={{
             from: "color",

@@ -273,7 +273,7 @@ export function CategoryLegend() {
         </Dialog>
       </div>
       <CardContent className="flex flex-row h-[100%] w-[100%]">
-        <div className="w-[50%] flex flex-col justify-start items-start ml-[25px]">
+        <div className="w-[50%] flex flex-col justify-start items-start m-0 sm:ml-[25px]">
           <div className="w-full flex flex-row align-center justify-center items-center mb-4">
             <div
               className="w-[40%] h-[0px]"
@@ -505,7 +505,7 @@ export function CategoryLegend() {
             </Dialog>
           </ScrollArea>
         </div>
-        <div className="w-[50%] flex flex-col justify-start items-start ml-[30px]">
+        <div className="w-[50%] flex flex-col justify-start items-start m-0 sm:ml-[30px]">
           <div className="w-full flex flex-row align-center justify-center items-center mb-4">
             <div
               className="w-[40%] h-[0px]"
@@ -528,7 +528,7 @@ export function CategoryLegend() {
                       return (
                         <DialogTrigger
                           key={index}
-                          className="rounded-md hover:bg-accent mr-2"
+                          className="rounded-md hover:bg-accent sm:mr-2"
                           // style={{border: "1px solid #ffff"}}
                         >
                           <div

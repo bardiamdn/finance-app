@@ -1,28 +1,16 @@
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import axios from "axios";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Navigate,
-  Routes,
-  Link,
-  redirect,
-} from "react-router-dom";
+import { Route, Navigate, Routes, redirect } from "react-router-dom";
 
 // Routes
 import Home from "./Home";
 import Login from "./auth/login";
 import Signup from "./auth/signup";
 
-// icons
-import { CiSettings } from "react-icons/ci";
-
 //Shadcn
-import { Button } from "./components/ui/button";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
-import { ProfileToggle } from "@/components/ui/profile-toggle";
 import { ProfileDialog } from "@/components/pages/profile-dialog";
 
 function App() {
@@ -68,7 +56,6 @@ function App() {
           setIsAuthenticated(false);
           console.log(error);
         }
-        // console.log('isAuthenticated: true',token); // it should change to isauthenticated to be secure
 
         // window.location.reload();
         return redirect("/home");
@@ -85,7 +72,7 @@ function App() {
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <div className="header">
-          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+          <h2 className="scroll-m-20 pb-2 lg:text-2xl font-semibold tracking-tight">
             <a href="https://finance.madanilab.site">MadaniLab Finance</a>
           </h2>
           {!isAuthenticated ? <ModeToggle /> : <ProfileDialog />}

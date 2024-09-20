@@ -28,7 +28,7 @@ import {
 
 export default function CategoryAnalytic() {
   // context variable
-  const { apiUrl, update, config, userData, userId, balanceData } =
+  const { apiUrl, update, config, userData, userId, balanceData, dims } =
     useContext(DataContext);
 
   let tempData = {};
@@ -167,10 +167,10 @@ export default function CategoryAnalytic() {
           </SelectContent>
         </Select>
       </div>
-      {loading ? (
-        <div className="flex flex-row justify-between px-[40px]">
+      {loading && dims.width > 10 ? (
+        <div className="flex lg:flex-row flex-col justify-between px-[40px]">
           <div className="ml-[55px]">
-            <Skeleton className="w-[550px] h-[350px]" />
+            <Skeleton className="lg:w-12/4 w-full lg:h-[350px]" />
           </div>
           <div className="flex flex-col">
             <Skeleton className="w-[160px] h-[160px] rounded-full mx-[15px] mb-[20px] mt-[8px]"></Skeleton>
@@ -185,15 +185,17 @@ export default function CategoryAnalytic() {
                 // width={500}
                 // height={300}
                 data={barData}
-                margin={{
-                  top: 20,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
+                margin={
+                  dims.width > 768 && {
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }
+                }
               >
                 <XAxis dataKey="gap" />
-                <YAxis />
+                {dims.width > 768 && <YAxis />}
                 <Tooltip
                   labelFormatter={(keys, values) => {
                     values.forEach((value) => {

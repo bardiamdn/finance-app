@@ -32,8 +32,8 @@ export default function IncomeExpenseBalance() {
         </CardTitle>
         {/* <CardDescription className="flex align-start justify-start">Change the Category's Type, Color and Name</CardDescription> */}
       </CardHeader>
-      <CardContent className="w-[90%] h-full flex flex-row justify-between items-center">
-        <div className="flex flex-col justify-center items-center mr-10">
+      <CardContent className="h-full w-full sm:w-[90%] flex flex-row justify-between items-center">
+        <div className="w-[40%] flex flex-col justify-center items-center mr-10">
           <p
             className="font-semibold text-lg mb-5"
             style={{ color: "#25ff1dbd" }}
@@ -44,10 +44,7 @@ export default function IncomeExpenseBalance() {
             {balanceData.totalExpense.toLocaleString()}
           </p>
         </div>
-        <div
-          className="w-[60%] h-full"
-          //  style={{ border: "1px solid #ffffff" }}
-        >
+        <div className="w-[60%] h-[80px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={[

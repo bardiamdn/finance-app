@@ -146,31 +146,32 @@
 @media (max-width: 750px) {
   .top-section {
     width: 100%;
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.7fr 1fr 1.5fr 2fr 1.5fr;
+    display: flex;
+    flex-direction: column;
+
     .total-balance {
-      grid-column: 1;
-      grid-row: 1;
       padding-right: 0;
     }
-    .income-expense-balance {
-      grid-column: 1;
-      grid-row: 2;
-    }
-    .account-analytic {
-      grid-column: 1;
-      grid-row: 3;
-    }
     .last-days {
-      grid-column: 1;
-      grid-row: 4;
-    }
-    .category-legend {
-      grid-column: 1;
-      grid-row: 5;
+      height: 400px;
     }
   }
   .bottom-section {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .category-analytic {
+      height: 600px;
+      padding-bottom: 15px;
+    }
+    .sankey {
+      height: 500px;
+      padding-bottom: 15px;
+    }
+    .history {
+      height: 600px;
+      padding-left: 0;
+    }
   }
 }
