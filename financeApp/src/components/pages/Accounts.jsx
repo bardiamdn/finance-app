@@ -32,20 +32,13 @@ import { LuPlus } from "react-icons/lu";
 
 // colors
 import { colors, myColors } from "@/components/ui/colors";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 export default function AccountsAnalyticPie() {
   // context variable
-  const {
-    apiUrl,
-    update,
-    config,
-    userData,
-    setUserData,
-    token,
-    userId,
-    dialogIsOpen,
-    setDialogIsOpen,
-  } = useContext(DataContext);
+  const { apiUrl, update, config, userData, setUserData, token, userId } =
+    useContext(DataContext);
+  const { dialogIsOpen, setDialogIsOpen } = useContext(ProfileDataContext);
 
   const [accountData, setAccountData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -216,7 +209,7 @@ export default function AccountsAnalyticPie() {
               <LuPlus className="h-4 w-4"></LuPlus>
             </Badge>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="w-[80%] max-w-[500px]">
             <DialogHeader>
               <DialogTitle>Add New Account</DialogTitle>
             </DialogHeader>
@@ -272,9 +265,9 @@ export default function AccountsAnalyticPie() {
               </DropdownMenu>
 
               <Input
-                className="w-50"
+                className="w-[200px]"
                 defaultValue={newAccountData.accountTitle}
-                placeholder="Category Name"
+                placeholder="Account Name"
                 onChange={(e) =>
                   setNewAccountData((prevData) => ({
                     ...prevData,
@@ -283,15 +276,16 @@ export default function AccountsAnalyticPie() {
                 }
               ></Input>
             </div>
-
-            <DialogClose className="flex justify-end">
-              <Badge
-                className="w-[70px] h-[37px] flex justify-center items-center"
-                onClick={() => addNewAccount()}
-              >
-                <p style={{ fontSize: "small", margin: "0" }}>Save</p>
-              </Badge>
-            </DialogClose>
+            <div className="flex justify-end">
+              <DialogClose>
+                <Badge
+                  className="w-[70px] h-[37px] flex justify-center items-center"
+                  onClick={() => addNewAccount()}
+                >
+                  <p style={{ fontSize: "small", margin: "0" }}>Save</p>
+                </Badge>
+              </DialogClose>
+            </div>
           </DialogContent>
         </Dialog>
       </div>
@@ -342,7 +336,7 @@ export default function AccountsAnalyticPie() {
                     )}
                   </DialogTrigger>
                   {selectedAccount ? (
-                    <DialogContent>
+                    <DialogContent className="w-[80%] max-w-[500px]">
                       <DialogHeader>
                         <DialogTitle>
                           {selectedAccount.accountTitle}
@@ -352,7 +346,7 @@ export default function AccountsAnalyticPie() {
                         </DialogDescription>
                       </DialogHeader>
                       <div className="flex flex-col">
-                        <div className="flex flex-row justify-center items-center mt-[25px]">
+                        <div className="flex flex-row justify-center items-center my-[25px]">
                           <DropdownMenu className="colorDiv">
                             <DropdownMenuTrigger>
                               <div
@@ -410,7 +404,7 @@ export default function AccountsAnalyticPie() {
                             </DropdownMenuContent>
                           </DropdownMenu>
                           <Input
-                            className="w-50"
+                            className="w-[200px]"
                             defaultValue={selectedAccount.accountTitle}
                             placeholder="Account Name"
                             onChange={(e) =>
@@ -433,7 +427,7 @@ export default function AccountsAnalyticPie() {
                                 </p>
                               </Badge>
                             </DialogTrigger>
-                            <DialogContent>
+                            <DialogContent className="w-[80%] max-w-[500px]">
                               <DialogHeader>
                                 <DialogTitle>
                                   Delete the {selectedAccount.accountTitle}{" "}

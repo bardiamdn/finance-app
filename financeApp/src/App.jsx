@@ -1,7 +1,8 @@
 import { useState, useLayoutEffect } from "react";
 import axios from "axios";
-import "./App.css";
 import { Route, Navigate, Routes, redirect } from "react-router-dom";
+import "./App.css";
+import { ProfileDataProvider } from "./components/ProfileDataProvider";
 
 // Routes
 import Home from "./Home";
@@ -70,39 +71,41 @@ function App() {
 
   return (
     <>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <div className="header">
-          <h2 className="scroll-m-20 pb-2 lg:text-2xl font-semibold tracking-tight">
-            <a href="https://finance.madanilab.site">MadaniLab Finance</a>
-          </h2>
-          {!isAuthenticated ? <ModeToggle /> : <ProfileDialog />}
-        </div>
+      <ProfileDataProvider>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <div className="header">
+            <h2 className="scroll-m-20 pb-2 lg:text-2xl font-semibold tracking-tight">
+              <a href="https://finance.madanilab.site">MadaniLab Finance</a>
+            </h2>
+            {!isAuthenticated ? <ModeToggle /> : <ProfileDialog />}
+          </div>
 
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isAuthenticated ? (
-                <Navigate to="/home" />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/home"
-            element={isAuthenticated ? <Home /> : <Navigate to="/login" />}
-          ></Route>
-          <Route
-            path="/login"
-            element={isAuthenticated ? <Navigate to="/home" /> : <Login />}
-          />
-          <Route
-            path="/signup"
-            element={isAuthenticated ? <Navigate to="/home" /> : <Signup />}
-          />
-        </Routes>
-      </ThemeProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/home" />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/home"
+              element={isAuthenticated ? <Home /> : <Navigate to="/login" />}
+            ></Route>
+            <Route
+              path="/login"
+              element={isAuthenticated ? <Navigate to="/home" /> : <Login />}
+            />
+            <Route
+              path="/signup"
+              element={isAuthenticated ? <Navigate to="/home" /> : <Signup />}
+            />
+          </Routes>
+        </ThemeProvider>
+      </ProfileDataProvider>
     </>
   );
 }

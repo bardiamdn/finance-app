@@ -16,6 +16,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from "@/components/ui/calendar";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Popover,
   PopoverContent,
@@ -29,21 +30,17 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { DataContext } from "@/Home";
 
 import { FaPlus } from "react-icons/fa";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 export function AddTransaction() {
   // context variable
-  const {
-    apiUrl,
-    setUpdate,
-    config,
-    userData,
-    token,
-    userId,
-    dialogIsOpen,
-    setDialogIsOpen,
-  } = useContext(DataContext);
-  // loading userData
+  const { apiUrl, setUpdate, config, userData, token, userId } =
+    useContext(DataContext);
+  const { dialogIsOpen, setDialogIsOpen } = useContext(ProfileDataContext);
+
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  // const [date, setDate] = useState(new Date());
   // states
   const [transactionData, setTransactionData] = useState({
     userId: userId,
@@ -160,11 +157,11 @@ export function AddTransaction() {
           </Badge>
         </DialogTrigger>
       )}
-      <DialogContent className="h-[90%] max-w-[320px] md:max-w-lg lg:max-w-2xl">
+      <DialogContent className="h-[90%] max-w-[320px] md:max-w-lg lg:max-w-2xl min-h-[610px]">
         {userData.accounts.length > 0 ? (
           <Tabs
             defaultValue={transactionData.accountId}
-            className="h-[80%] w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-2xl"
+            className="h-[80%] w-full max-w-[275px] md:max-w-lg lg:max-w-2xl"
           >
             <ScrollArea className="h-[50px] w-full p-1">
               <TabsList className="flex justify-center items-center">
@@ -196,14 +193,14 @@ export function AddTransaction() {
         ) : (
           <div>You don&apos;t have any account, you must have at least one</div>
         )}
-        <div className="w-full m-2">
-          <div className="m-2 mt-0 flex justify-center align center">
+        <div className="h-full w-full md:m-2 flex flex-col items-center justify-between">
+          <div className="mb-2 md:m-2 flex justify-center items-center">
             <Input
               style={{
                 fontSize: "30px",
                 textAlign: "center",
               }}
-              className="flex justify-center align-center w-8/12 h-[70px]"
+              className="flex justify-center align-center w-[250px] md:w-8/12 h-[70px]"
               type="number"
               min="0"
               placeholder="Transaction Amount"
@@ -218,12 +215,16 @@ export function AddTransaction() {
             />
           </div>
           <div className="block md:hidden">
-            <Popover>
-              <PopoverTrigger asChild>
+            <Popover
+              open={popoverOpen}
+              onOpenChange={setPopoverOpen}
+              modal={true}
+            >
+              <PopoverTrigger className="w-full" asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[240px] justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal",
                     !transactionData.date && "text-muted-foreground"
                   )}
                 >
@@ -253,13 +254,13 @@ export function AddTransaction() {
                       date: date,
                     }));
                   }}
-                  className="rounded-md border h-[322px] w-[250px]"
-                  initialFocus
+                  className="rounded-md border h-full w-full"
+                  // initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
-          <div className="flex flex-row justify-center sm:justify-between items-start mt-10">
+          <div className="flex flex-row justify-center sm:justify-between items-start md:mt-10 mt-2">
             <div className="flex flex-col justify-start items-start">
               <div className="flex items-center m-2 ml-1">
                 <RadioGroup
@@ -311,7 +312,7 @@ export function AddTransaction() {
                   </div>
                 </RadioGroup>
               </div>
-              <ScrollArea className="lg:h-[298px] lg:w-[231.36px] md:w-[150px] h-[240px] w-full rounded-md border p-4 mr-6">
+              <ScrollArea className="lg:h-[298px] lg:w-[231.36px] md:w-[150px] md:h-[240px] h-[180px] w-full rounded-md border px-2 pt-2 md:px-4 md:pt-4 mr-6">
                 <RadioGroup
                   name="category"
                   defaultValue={transactionData.categoryId}
@@ -482,9 +483,10 @@ export function AddTransaction() {
           </div>
           <div className="lg:w[450px] w-full flex flex-col items-center mt-4">
             <Label className="mb-2 ml-1">Description</Label>
-            <Input
+            <Textarea
               className="w-full h-[70px]"
               name="description"
+              placeholder="Enter more details here."
               value={transactionData.description}
               onChange={(e) => {
                 setTransactionData((prevData) => ({

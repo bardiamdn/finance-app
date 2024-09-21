@@ -1,12 +1,12 @@
 import { useLayoutEffect, useState, useContext } from "react";
 import axios from "axios";
-// import { DataContext } from "@/Home";
-import { Moon, Sun, Pencil, UserRound } from "lucide-react";
+import { redirect } from "react-router-dom";
+import { ProfileDataContext } from "../ProfileDataProvider";
+import { Moon, Sun, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -33,10 +33,39 @@ const apiUrl =
     ? import.meta.env.VITE_API_URL_PROD
     : import.meta.env.VITE_API_URL_DEV;
 
+const currencyOptions = [
+  { code: "USD", symbol: "$", name: "United States Dollar" },
+  { code: "EUR", symbol: "€", name: "Euro" },
+  { code: "JPY", symbol: "¥", name: "Japanese Yen" },
+  { code: "GBP", symbol: "£", name: "British Pound" },
+  { code: "AUD", symbol: "A$", name: "Australian Dollar" },
+  { code: "CAD", symbol: "C$", name: "Canadian Dollar" },
+  { code: "CHF", symbol: "Fr", name: "Swiss Franc" },
+  { code: "CNY", symbol: "¥", name: "Chinese Yuan" },
+  { code: "INR", symbol: "₹", name: "Indian Rupee" },
+  { code: "RUB", symbol: "₽", name: "Russian Ruble" },
+  { code: "ZAR", symbol: "R", name: "South African Rand" },
+  { code: "BRL", symbol: "R$", name: "Brazilian Real" },
+  { code: "MXN", symbol: "$", name: "Mexican Peso" },
+];
+
 export function ProfileDialog() {
-  // const { apiUrl, setDialogIsOpen } = useContext(DataContext);
+  const {
+    setDialogIsOpen,
+    token,
+    userId,
+    config,
+    setUserData,
+    currency,
+    setCurrency,
+  } = useContext(ProfileDataContext);
   const { setTheme } = useTheme();
   const [username, setUsername] = useState(null);
+  const [deleteData, setDeleteData] = useState({
+    username: "",
+    password: "",
+  });
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   const signOut = () => {
     localStorage.removeItem("FinanceMadaniLabBearerToken");
@@ -54,38 +83,55 @@ export function ProfileDialog() {
   }, [username]);
 
   function deleteAccount() {
-    axios.delete(`${apiUrl}/auth/delete-account`);
+    axios
+      .delete(`${apiUrl}/auth/delete-account`, config)
+      .then(() => {
+        signOut();
+      })
+      .catch((error) => {
+        console.error("Error deleting account:", error);
+      });
   }
-  // console.log(username);
+
+  async function updateCurrency(newCurrency) {
+    try {
+      if (token && userId) {
+        setCurrency(newCurrency);
+
+        const response = await axios.put(
+          `${apiUrl}/api/profile/update-currency/${userId}`,
+          {
+            updatedCurrency: newCurrency,
+          },
+          config
+        );
+        setUserData(response.data.data);
+        setCurrency(response.data.data.currency);
+      }
+
+      setCurrency(newCurrency);
+    } catch (error) {
+      console.error("Error updating currency:", error);
+    }
+  }
 
   return (
-    <Dialog
-    //  onOpenChange={(open) => setDialogIsOpen(open)}
-    >
+    <Dialog onOpenChange={(open) => setDialogIsOpen(open)}>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon">
           <UserRound variant="outline" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="w-[80%] max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Hi {username} 👋</DialogTitle>
         </DialogHeader>
-        {/* <div className="flex flex-row items-center justify-start">
-          <Button variant="ghost" className="justify-center mr-[10px]">
-            <Pencil className="h-[15px] w-[15px]" />
-          </Button>
-          <DialogDescription>
-            You can change your password and username limited times.
-          </DialogDescription>
-        </div> */}
-        <div className="p-[20px]">
+        <div className="sm:p-[20px]">
           <div className="flex flex-row justify-between items-center mt-[15px]">
             <Label>Set Theme</Label>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="w-[150px]">
-                  {/* Set Theme */}
                   <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                   <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                   <span className="sr-only">Toggle theme</span>
@@ -104,58 +150,37 @@ export function ProfileDialog() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="flex flex-row justify-between items-center mt-[25px]">
-            <Label>First Day of the Week</Label>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="w-[150px]" variant="outline"></Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-[150px]" align="start">
-                <DropdownMenuItem>Sunday</DropdownMenuItem>
-                <DropdownMenuItem>Monday</DropdownMenuItem>
-                <DropdownMenuItem>Tuesday</DropdownMenuItem>
-                <DropdownMenuItem>Wednsday</DropdownMenuItem>
-                <DropdownMenuItem>Thursday</DropdownMenuItem>
-                <DropdownMenuItem>Friday</DropdownMenuItem>
-                <DropdownMenuItem>Saturday</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
           <div className="flex flex-row justify-between items-center mt-[10px]">
-            <Label>First Day of the Month</Label>
+            <Label>Currency</Label>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="w-[150px]" variant="outline"></Button>
+                <Button className="w-[150px]" variant="outline">
+                  {currency}
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[150px]" align="start">
-                <DropdownMenuItem>First day of month</DropdownMenuItem>
-                <ScrollArea className="h-[300px]">
-                  {Array.from({ length: 31 }, (_, index) => (
-                    <DropdownMenuItem key={index}>{index + 1}</DropdownMenuItem>
+                <ScrollArea className="h-[250px]">
+                  {currencyOptions.map((item) => (
+                    <DropdownMenuItem
+                      key={item.code}
+                      onClick={() => updateCurrency(item.code)}
+                    >
+                      {item.code} - {item.symbol}
+                    </DropdownMenuItem>
                   ))}
                 </ScrollArea>
-                <DropdownMenuItem>Last day of month</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <div>
-            <Label>Selected Currency</Label>
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Button></Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <ScrollArea>Hi</ScrollArea>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
 
         <div className="flex items-center justify-between mt-[50px]">
-          <Popover>
-            <PopoverTrigger>
+          <Popover
+            modal={true}
+            open={popoverOpen}
+            onOpenChange={setPopoverOpen}
+          >
+            <PopoverTrigger asChild>
               <Button variant="ghost">Delete Account</Button>
             </PopoverTrigger>
             <PopoverContent>
@@ -163,23 +188,49 @@ export function ProfileDialog() {
                 This action cannot be undone. This will permanently delete your
                 account and remove your data from our servers.
               </p>
-              <Input
-                className="m-[5px]"
-                type="username"
-                placeholder="Username"
-              />
-              <Input
-                className="m-[5px]"
-                type="password"
-                placeholder="Password"
-              />
-              <Button
-                className="mt-[5px] ml-[5px]"
-                variant="destructive"
-                onClick={deleteAccount}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  deleteAccount();
+                }}
               >
-                Delete Account
-              </Button>
+                <Input
+                  className="m-[5px]"
+                  type="text"
+                  placeholder="Username"
+                  value={deleteData.username}
+                  onChange={(e) =>
+                    setDeleteData((data) => ({
+                      ...data,
+                      username: e.target.value,
+                    }))
+                  }
+                  aria-label="Username"
+                  disabled // disabled to avoid accedential deletion
+                />
+                <Input
+                  className="m-[5px]"
+                  type="password"
+                  placeholder="Password"
+                  value={deleteData.password}
+                  onChange={(e) =>
+                    setDeleteData((data) => ({
+                      ...data,
+                      password: e.target.value,
+                    }))
+                  }
+                  aria-label="Password"
+                  disabled // disabled to avoid accedential deletion
+                />
+                <Button
+                  className="mt-[5px] ml-[5px]"
+                  variant="destructive"
+                  type="submit"
+                  disabled // disabled to avoid accedential deletion
+                >
+                  Delete Account
+                </Button>
+              </form>
             </PopoverContent>
           </Popover>
           <Button variant="ghost" onClick={signOut}>

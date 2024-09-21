@@ -1,6 +1,7 @@
 import { useState, useEffect, useLayoutEffect, createContext } from "react";
 import axios from "axios";
 import "./Home.scss";
+import { redirect } from "react-router-dom";
 
 // components
 import { AddTransaction } from "@/components/pages/transaction-dialog";
@@ -32,7 +33,6 @@ export default function Home() {
   const [balanceData, setBalanceData] = useState(null);
   const [update, setUpdate] = useState(false); // updating the components
   const [loading, setLoading] = useState(true);
-  const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const [dims, setDims] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
@@ -140,8 +140,6 @@ export default function Home() {
           balanceData,
           getBalances,
           getProfileData,
-          dialogIsOpen,
-          setDialogIsOpen,
           dims,
         }}
       >

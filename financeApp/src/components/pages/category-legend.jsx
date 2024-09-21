@@ -33,11 +33,13 @@ import { LuPlus } from "react-icons/lu";
 
 // colors
 import { colors, myColors } from "@/components/ui/colors";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 export function CategoryLegend() {
   // context variable
-  const { apiUrl, config, userData, setUserData, userId, setDialogIsOpen } =
+  const { apiUrl, config, userData, setUserData, userId } =
     useContext(DataContext);
+  const { setDialogIsOpen } = useContext(ProfileDataContext);
   // states
   const [newCategoryData, setNewCategoryData] = useState({
     categoryTitle: "",
@@ -145,7 +147,7 @@ export function CategoryLegend() {
               <LuPlus className="h-4 w-4"></LuPlus>
             </Badge>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="w-[80%] max-w-[500px]">
             <DialogHeader>
               <DialogTitle>Add New Category</DialogTitle>
             </DialogHeader>
@@ -185,7 +187,7 @@ export function CategoryLegend() {
                     <Label htmlFor="income">Income</Label>
                   </div>
                 </RadioGroup>
-                <div className="flex flex-row justify-center items-center mt-[25px]">
+                <div className="flex flex-row justify-center items-center my-[25px]">
                   <DropdownMenu className="colorDiv">
                     <DropdownMenuTrigger>
                       <div
@@ -246,7 +248,7 @@ export function CategoryLegend() {
 
                   {/* <div className={`w-8 h-7 rounded-md mr-2 colorDiv`} style={{ backgroundColor: `${colors[0].value}` }}></div> */}
                   <Input
-                    className="w-50"
+                    className="w-[200px]"
                     defaultValue={newCategoryData.categoryTitle}
                     placeholder="Category Name"
                     onChange={(e) =>
@@ -257,14 +259,16 @@ export function CategoryLegend() {
                     }
                   ></Input>
                 </div>
-                <DialogClose className="flex justify-end">
-                  <Badge
-                    className="w-[70px] h-[37px] flex justify-center items-center"
-                    onClick={() => addCategory()}
-                  >
-                    <p style={{ fontSize: "small", margin: "0" }}>Save</p>
-                  </Badge>
-                </DialogClose>
+                <div className="flex justify-end">
+                  <DialogClose>
+                    <Badge
+                      className="w-[70px] h-[37px] flex justify-center items-center"
+                      onClick={() => addCategory()}
+                    >
+                      <p style={{ fontSize: "small", margin: "0" }}>Save</p>
+                    </Badge>
+                  </DialogClose>
+                </div>
               </>
             ) : (
               <></>
@@ -322,7 +326,7 @@ export function CategoryLegend() {
                   <div />
                 )}
               </div>
-              <DialogContent>
+              <DialogContent className="w-[80%] max-w-[500px]">
                 <DialogHeader>
                   <DialogTitle>Click Save to Apply Changes</DialogTitle>
                 </DialogHeader>
@@ -362,7 +366,7 @@ export function CategoryLegend() {
                         <Label htmlFor="income">Income</Label>
                       </div>
                     </RadioGroup>
-                    <div className="flex flex-row justify-center items-center mt-[25px]">
+                    <div className="flex flex-row justify-center items-center my-[25px]">
                       <DropdownMenu className="colorDiv">
                         <DropdownMenuTrigger>
                           <div
@@ -423,7 +427,7 @@ export function CategoryLegend() {
 
                       {/* <div className={`w-8 h-7 rounded-md mr-2 colorDiv`} style={{ backgroundColor: `${colors[0].value}` }}></div> */}
                       <Input
-                        className="w-50"
+                        className="w-[200px]"
                         defaultValue={categoryData.categoryTitle}
                         placeholder="Category Name"
                         onChange={(e) =>
@@ -447,7 +451,7 @@ export function CategoryLegend() {
                           </Badge>
                           {/* <Button variant="outline" >Delete</Button> */}
                         </DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="w-[80%] max-w-[500px]">
                           <DialogHeader>
                             <DialogTitle>
                               Delete the {categoryData.categoryTitle} category,
@@ -553,7 +557,7 @@ export function CategoryLegend() {
                   <div />
                 )}
               </div>
-              <DialogContent>
+              <DialogContent className="w-[80%] max-w-[500px]">
                 <DialogHeader>
                   <DialogTitle>Click Save to Apply Changes</DialogTitle>
                 </DialogHeader>
@@ -593,7 +597,7 @@ export function CategoryLegend() {
                         <Label htmlFor="income">Income</Label>
                       </div>
                     </RadioGroup>
-                    <div className="flex flex-row justify-center items-center mt-[25px]">
+                    <div className="flex flex-row justify-center items-center my-[25px]">
                       <DropdownMenu className="colorDiv">
                         <DropdownMenuTrigger>
                           <div
@@ -654,7 +658,7 @@ export function CategoryLegend() {
 
                       {/* <div className={`w-8 h-7 rounded-md mr-2 colorDiv`} style={{ backgroundColor: `${colors[0].value}` }}></div> */}
                       <Input
-                        className="w-50"
+                        className="w-[200px]"
                         defaultValue={categoryData.categoryTitle}
                         placeholder="Category Name"
                         onChange={(e) =>
@@ -678,7 +682,7 @@ export function CategoryLegend() {
                           </Badge>
                           {/* <Button variant="outline" >Delete</Button> */}
                         </DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="w-[80%] max-w-[500px]">
                           <DialogHeader>
                             <DialogTitle>
                               Delete the {categoryData.categoryTitle} category?
