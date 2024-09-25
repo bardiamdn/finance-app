@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 
 // context
-import { DataContext } from "@/Home";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 //components
 import { Skeleton } from "@/components/ui/skeleton";
@@ -28,7 +28,7 @@ const red = "#ff1d1dbd";
 export default function IncomeSankey() {
   // context variable
   const { apiUrl, update, config, userData, userId, dims } =
-    useContext(DataContext);
+    useContext(ProfileDataContext);
 
   const [sankeyData, setSankeyData] = useState(null);
   const [period, setPeriod] = useState("this_month");

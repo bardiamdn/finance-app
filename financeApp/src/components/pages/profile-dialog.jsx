@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { redirect } from "react-router-dom";
 import { ProfileDataContext } from "../ProfileDataProvider";
@@ -78,7 +78,7 @@ export function ProfileDialog() {
     const username = localStorage.getItem("FinanceMadaniLabUsername");
     setUsername(username);
   }
-  useLayoutEffect(() => {
+  useEffect(() => {
     getUsername();
   }, [username]);
 

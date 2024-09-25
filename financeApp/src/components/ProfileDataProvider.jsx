@@ -1,14 +1,19 @@
-import { createContext, useState, useLayoutEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext, useLayoutEffect } from "react";
 import axios from "axios";
 
 export const ProfileDataContext = createContext();
 
 export function ProfileDataProvider({ children, ...props }) {
+  const [update, setUpdate] = useState(false);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState(null);
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const [currency, setCurrency] = useState();
+  const [dims, setDims] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
 
   const mode = import.meta.env.VITE_MODE;
   const apiUrl =
@@ -29,18 +34,21 @@ export function ProfileDataProvider({ children, ...props }) {
 
   const config = token
     ? {
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-          "X-User-Timezone": userTimeZone,
-          "CF-Access-Client-Id": cfAuth.clientId,
-          "CF-Access-Client-Secret": cfAuth.clientSecret,
-        },
-      }
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+        "X-User-Timezone": userTimeZone,
+        "CF-Access-Client-Id": cfAuth.clientId,
+        "CF-Access-Client-Secret": cfAuth.clientSecret,
+      },
+    }
     : null;
 
-  useLayoutEffect(() => {
-    getStorageVariables();
+  // useLayoutEffect(() => {
+  //   getStorageVariables();
+  // }, [])
+
+  useEffect(() => {
 
     async function getProfileData(userId) {
       try {
@@ -62,6 +70,23 @@ export function ProfileDataProvider({ children, ...props }) {
     // setLocalDate(userTimeZone)
   }, [userId]);
 
+  useEffect(() => {
+    getStorageVariables();
+
+    const handleResize = () => {
+      setDims({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [])
+
   return (
     <ProfileDataContext.Provider
       {...props}
@@ -71,11 +96,14 @@ export function ProfileDataProvider({ children, ...props }) {
         userData,
         apiUrl,
         config,
+        update,
+        setUpdate,
         setUserData,
         dialogIsOpen,
         setDialogIsOpen,
         setCurrency,
         currency,
+        dims
       }}
     >
       {children}

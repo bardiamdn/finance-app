@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Route, Navigate, Routes, redirect } from "react-router-dom";
 import "./App.css";
@@ -28,7 +28,7 @@ function App() {
     clientSecret: import.meta.env.VITE_PUBLIC_CF_Access_Client_Secret,
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const checkAuth = async () => {
       const storedToken = localStorage.getItem("FinanceMadaniLabBearerToken");
       const userId = localStorage.getItem("FinanceMadaniLabUserId");

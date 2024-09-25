@@ -27,16 +27,14 @@ import {
 import { Calendar as CalendarIcon } from "lucide-react";
 
 // context
-import { DataContext } from "@/Home";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 import { FaPlus } from "react-icons/fa";
-import { ProfileDataContext } from "../ProfileDataProvider";
 
 export function AddTransaction() {
   // context variable
-  const { apiUrl, setUpdate, config, userData, token, userId } =
-    useContext(DataContext);
-  const { dialogIsOpen, setDialogIsOpen } = useContext(ProfileDataContext);
+  const { apiUrl, setUpdate, config, userData, token, userId, dialogIsOpen, setDialogIsOpen } =
+    useContext(ProfileDataContext);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -119,9 +117,8 @@ export function AddTransaction() {
         });
         setUpdate((prevState) => !prevState);
         toast("Event has been created", {
-          description: `Your ${response.data.data.type} was ${
-            response.data.data.amount
-          }$ on ${response.data.data.date.split("T")[0]}`,
+          description: `Your ${response.data.data.type} was ${response.data.data.amount
+            }$ on ${response.data.data.date.split("T")[0]}`,
           action: {
             label: "Undo",
             onClick: () => console.log("Undo"),
@@ -255,7 +252,7 @@ export function AddTransaction() {
                     }));
                   }}
                   className="rounded-md border h-full w-full"
-                  // initialFocus
+                // initialFocus
                 />
               </PopoverContent>
             </Popover>

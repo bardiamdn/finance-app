@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 
 // context
-import { DataContext } from "@/Home";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 //components
 import { Skeleton } from "@/components/ui/skeleton";
@@ -33,13 +33,11 @@ import { LuPlus } from "react-icons/lu";
 
 // colors
 import { colors, myColors } from "@/components/ui/colors";
-import { ProfileDataContext } from "../ProfileDataProvider";
 
 export function CategoryLegend() {
   // context variable
-  const { apiUrl, config, userData, setUserData, userId } =
-    useContext(DataContext);
-  const { setDialogIsOpen } = useContext(ProfileDataContext);
+  const { apiUrl, config, userData, setUserData, userId, setDialogIsOpen } =
+    useContext(ProfileDataContext);
   // states
   const [newCategoryData, setNewCategoryData] = useState({
     categoryTitle: "",
@@ -113,10 +111,10 @@ export function CategoryLegend() {
       // console.log("categoryData", categoryData)
       const result = await axios.delete(
         apiUrl +
-          "/api/profile/remove-category/" +
-          userId +
-          "/" +
-          categoryData._id,
+        "/api/profile/remove-category/" +
+        userId +
+        "/" +
+        categoryData._id,
         config
       );
       setUserData(result.data.data);
@@ -301,7 +299,7 @@ export function CategoryLegend() {
                         <DialogTrigger
                           key={index}
                           className=" rounded-md hover:bg-accent mr-2"
-                          // style={{border: "1px solid #ffff"}}
+                        // style={{border: "1px solid #ffff"}}
                         >
                           <div
                             className="flex flex-row align-center items-center py-2 pl-2"
@@ -533,7 +531,7 @@ export function CategoryLegend() {
                         <DialogTrigger
                           key={index}
                           className="rounded-md hover:bg-accent sm:mr-2"
-                          // style={{border: "1px solid #ffff"}}
+                        // style={{border: "1px solid #ffff"}}
                         >
                           <div
                             className="flex flex-row align-center items-center py-2 pl-2"

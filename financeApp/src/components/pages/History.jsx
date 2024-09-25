@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { cn } from "../../lib/utils";
 
 // context
-import { DataContext } from "@/Home";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 //components
 import { Badge } from "@/components/ui/badge";
@@ -42,7 +42,6 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from "@/components/ui/calendar";
-import { ProfileDataContext } from "../ProfileDataProvider";
 import { Textarea } from "../ui/textarea";
 import {
   Popover,
@@ -58,9 +57,8 @@ const red = "#ff1d1dbd";
 
 export default function History() {
   // context variable
-  const { apiUrl, update, setUpdate, config, userData, token, userId } =
-    useContext(DataContext);
-  const { setDialogIsOpen } = useContext(ProfileDataContext);
+  const { apiUrl, update, setUpdate, config, userData, token, userId, setDialogIsOpen } =
+    useContext(ProfileDataContext);
 
   const [historyData, setHistoryData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -165,10 +163,10 @@ export default function History() {
     try {
       const result = await axios.delete(
         apiUrl +
-          "/api/transaction/delete/" +
-          userId +
-          "/" +
-          transactionData._id,
+        "/api/transaction/delete/" +
+        userId +
+        "/" +
+        transactionData._id,
         config
       );
       setUpdate((prevState) => !prevState);
@@ -398,7 +396,7 @@ export default function History() {
                                 className={cn(
                                   "w-full justify-start text-left font-normal",
                                   !transactionData.date &&
-                                    "text-muted-foreground"
+                                  "text-muted-foreground"
                                 )}
                               >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
@@ -496,7 +494,7 @@ export default function History() {
                                 defaultValue={transactionData.categoryId}
                               >
                                 {transactionData.type === "expense" &&
-                                userData.categories.length > 0 ? (
+                                  userData.categories.length > 0 ? (
                                   userData.categories.map((category, index) => {
                                     if (category.categoryType === "expense") {
                                       return (
@@ -586,7 +584,7 @@ export default function History() {
                                           key={index}
                                         >
                                           {account._id ===
-                                          transactionData.accountId ? (
+                                            transactionData.accountId ? (
                                             <>
                                               <RadioGroupItem
                                                 style={{

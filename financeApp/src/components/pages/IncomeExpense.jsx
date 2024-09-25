@@ -1,16 +1,18 @@
 import { useContext, useState, useEffect } from "react";
 
 // context
-import { DataContext } from "@/Home";
+import { BalanceContext } from "@/Home";
 
 //components
 import { Skeleton } from "@/components/ui/skeleton";
 import { ResponsiveContainer, BarChart, Bar } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 export default function IncomeExpenseBalance() {
   // context variable
-  const { update, userData, balanceData } = useContext(DataContext);
+  const { update, userData } = useContext(ProfileDataContext);
+  const { balanceData } = useContext(BalanceContext)
   const [loading, setLoading] = useState(true);
 
   // effect for loading the useData

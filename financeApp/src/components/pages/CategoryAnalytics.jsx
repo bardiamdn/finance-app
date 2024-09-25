@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 
 // context
-import { DataContext } from "@/Home";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 //components
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,7 +29,7 @@ import {
 export default function CategoryAnalytic() {
   // context variable
   const { apiUrl, update, config, userData, userId, balanceData, dims } =
-    useContext(DataContext);
+    useContext(ProfileDataContext);
 
   let tempData = {};
   // states

@@ -1,14 +1,14 @@
 version: '3.8'
 services:
-   web:
-    build:  # Define the build context
-      context: .  # Use the current directory
-      dockerfile: Dockerfile
+  web:
+    build: .
+      # context: . 
+      # dockerfile: Dockerfile
     image: finance-madanilab-img:1.1
     ports:
-      - "3080:80"  # Map port 3080 on the host to port 80 on the container
+      - "3080:80" # Map port 3080 on the host to port 80 on the container
     container_name: finance-madanilab
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro 
-      - ./public:/usr/share/nginx/html:ro 
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./public:/usr/share/nginx/html:ro
     restart: always

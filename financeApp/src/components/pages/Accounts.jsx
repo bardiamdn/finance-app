@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 
 // context
-import { DataContext } from "@/Home";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 //components
 import { Skeleton } from "@/components/ui/skeleton";
@@ -32,13 +32,11 @@ import { LuPlus } from "react-icons/lu";
 
 // colors
 import { colors, myColors } from "@/components/ui/colors";
-import { ProfileDataContext } from "../ProfileDataProvider";
 
 export default function AccountsAnalyticPie() {
   // context variable
-  const { apiUrl, update, config, userData, setUserData, token, userId } =
-    useContext(DataContext);
-  const { dialogIsOpen, setDialogIsOpen } = useContext(ProfileDataContext);
+  const { apiUrl, update, config, userData, setUserData, token, userId, dialogIsOpen, setDialogIsOpen } =
+    useContext(ProfileDataContext);
 
   const [accountData, setAccountData] = useState(null);
   const [loading, setLoading] = useState(true);

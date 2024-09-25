@@ -1,7 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 
 // context
-import { DataContext } from "@/Home";
+import { BalanceContext } from "@/Home";
+import { ProfileDataContext } from "../ProfileDataProvider";
 
 //components
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,8 +10,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function TotalBalance() {
   // context variable
-  const { update, userData, balanceData } = useContext(DataContext);
-  // states
+  const { update, userData } = useContext(ProfileDataContext);
+  const { balanceData } = useContext(BalanceContext)
+
   // loading userData
   const [loading, setLoading] = useState(true);
 
