@@ -1,4 +1,10 @@
-import { createContext, useState, useEffect, useContext, useLayoutEffect } from "react";
+import {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useLayoutEffect,
+} from "react";
 import axios from "axios";
 
 export const ProfileDataContext = createContext();
@@ -6,10 +12,16 @@ export const ProfileDataContext = createContext();
 export function ProfileDataProvider({ children, ...props }) {
   const [update, setUpdate] = useState(false);
   const [token, setToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [mainLoading, setMainLoading] = useState(true);
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState(null);
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
-  const [currency, setCurrency] = useState();
+  const [currency, setCurrency] = useState({
+    code: "USD",
+    symbol: "$",
+    name: "United States Dollar",
+  });
   const [dims, setDims] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
@@ -34,22 +46,57 @@ export function ProfileDataProvider({ children, ...props }) {
 
   const config = token
     ? {
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-        "X-User-Timezone": userTimeZone,
-        "CF-Access-Client-Id": cfAuth.clientId,
-        "CF-Access-Client-Secret": cfAuth.clientSecret,
-      },
-    }
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+          "X-User-Timezone": userTimeZone,
+          "CF-Access-Client-Id": cfAuth.clientId,
+          "CF-Access-Client-Secret": cfAuth.clientSecret,
+        },
+      }
     : null;
 
-  // useLayoutEffect(() => {
-  //   getStorageVariables();
-  // }, [])
+  useLayoutEffect(() => {
+    const checkAuth = async () => {
+      const storedToken = localStorage.getItem("FinanceMadaniLabBearerToken");
+      const storedUserId = localStorage.getItem("FinanceMadaniLabUserId");
+
+      if (storedToken && storedUserId) {
+        setToken("Bearer " + storedToken);
+        setUserId(storedUserId);
+
+        try {
+          const response = await axios.get(
+            apiUrl + "/auth/authenticated/" + storedUserId,
+            {
+              headers: {
+                authorization: "Bearer " + storedToken,
+                "Content-Type": "application/json",
+                "CF-Access-Client-Id": cfAuth.clientId,
+                "CF-Access-Client-Secret": cfAuth.clientSecret,
+              },
+            }
+          );
+          if (response.status === 200) {
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(false);
+          }
+          setMainLoading(false);
+        } catch (error) {
+          setIsAuthenticated(false);
+          console.log(error);
+        }
+      } else {
+        setIsAuthenticated(false);
+        console.log("Missing token");
+      }
+    };
+
+    checkAuth();
+  }, [update]);
 
   useEffect(() => {
-
     async function getProfileData(userId) {
       try {
         if (token && userId) {
@@ -85,17 +132,22 @@ export function ProfileDataProvider({ children, ...props }) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [])
+  }, []);
 
   return (
     <ProfileDataContext.Provider
       {...props}
       value={{
         token,
+        setToken,
         userId,
+        setUserId,
         userData,
         apiUrl,
         config,
+        isAuthenticated,
+        setIsAuthenticated,
+        mainLoading,
         update,
         setUpdate,
         setUserData,
@@ -103,7 +155,7 @@ export function ProfileDataProvider({ children, ...props }) {
         setDialogIsOpen,
         setCurrency,
         currency,
-        dims
+        dims,
       }}
     >
       {children}

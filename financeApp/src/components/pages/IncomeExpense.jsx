@@ -11,8 +11,8 @@ import { ProfileDataContext } from "../ProfileDataProvider";
 
 export default function IncomeExpenseBalance() {
   // context variable
-  const { update, userData } = useContext(ProfileDataContext);
-  const { balanceData } = useContext(BalanceContext)
+  const { update, userData, currency } = useContext(ProfileDataContext);
+  const { balanceData } = useContext(BalanceContext);
   const [loading, setLoading] = useState(true);
 
   // effect for loading the useData
@@ -40,10 +40,10 @@ export default function IncomeExpenseBalance() {
             className="font-semibold text-lg mb-5"
             style={{ color: "#25ff1dbd" }}
           >
-            {balanceData.totalIncome.toLocaleString()}
+            {balanceData.totalIncome.toLocaleString()} {currency.symbol}
           </p>
           <p className="font-semibold text-lg" style={{ color: "#ff1d1dbd" }}>
-            {balanceData.totalExpense.toLocaleString()}
+            {balanceData.totalExpense.toLocaleString()} {currency.symbol}
           </p>
         </div>
         <div className="w-[60%] h-[80px]">

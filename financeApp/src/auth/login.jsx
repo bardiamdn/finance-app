@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Navigate, redirect } from "react-router-dom";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 
 import "./auth.css";
+import { ProfileDataContext } from "@/components/ProfileDataProvider";
 
 const mode = import.meta.env.VITE_MODE;
 const apiUrl =
@@ -41,6 +42,10 @@ const formSchema = z.object({
 // Routing the user to the right route is mainly done in the App.jsx file
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
+  const { setToken, setUserId, setUpdate, setIsAuthenticated } =
+    useContext(ProfileDataContext);
+
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -58,9 +63,6 @@ const LoginPage = () => {
 
   async function onLoginSubmit(values) {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000);
 
     await axios
       .post(apiUrl + "/auth/login", values, {
@@ -71,23 +73,26 @@ const LoginPage = () => {
         },
       })
       .then((response) => {
-        // console.log(response);
-        // const userId = response.
-        let token = response.data.token;
-        token = token.split(" ")[1];
-        setLocalStorage(token, response.data.userId, response.data.username);
+        setLoading(false);
+        let newToken = response.data.token;
+        setLocalStorage(
+          newToken.split(" ")[1],
+          response.data.userId,
+          response.data.username
+        );
 
-        // return (window.location.href = "/home");
-        redirect("/home");
-        window.location.reload();
+        setUpdate((prevState) => !prevState);
+        navigate("/home");
       })
       .catch((error) => {
+        setLoading(false);
+        setIsAuthenticated(false);
         console.error("Error logging in:", error);
       });
   }
 
   function navigateSignup() {
-    window.location.href = "/signup";
+    navigate("/signup");
   }
   return (
     <div className="main-auth">

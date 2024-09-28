@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { redirect } from "react-router-dom";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 import { ProfileDataContext } from "../ProfileDataProvider";
 import { Moon, Sun, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -53,8 +53,11 @@ export function ProfileDialog() {
   const {
     setDialogIsOpen,
     token,
+    setToken,
     userId,
+    setUserId,
     config,
+    setIsAuthenticated,
     setUserData,
     currency,
     setCurrency,
@@ -67,12 +70,18 @@ export function ProfileDialog() {
   });
   const [popoverOpen, setPopoverOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   const signOut = () => {
     localStorage.removeItem("FinanceMadaniLabBearerToken");
     localStorage.removeItem("FinanceMadaniLabUserId");
     localStorage.removeItem("FinanceMadaniLabUsername");
-    window.location.reload();
-    return redirect("/login");
+
+    setIsAuthenticated(false);
+    setUserData(null);
+    setUserId(null);
+    setToken(null);
+    navigate("/login");
   };
   function getUsername() {
     const username = localStorage.getItem("FinanceMadaniLabUsername");
@@ -80,7 +89,7 @@ export function ProfileDialog() {
   }
   useEffect(() => {
     getUsername();
-  }, [username]);
+  }, []);
 
   function deleteAccount() {
     axios
@@ -155,17 +164,17 @@ export function ProfileDialog() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="w-[150px]" variant="outline">
-                  {currency}
+                  {currency.code}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-[150px]" align="start">
+              <DropdownMenuContent className="w-[210px]" align="start">
                 <ScrollArea className="h-[250px]">
                   {currencyOptions.map((item) => (
                     <DropdownMenuItem
                       key={item.code}
-                      onClick={() => updateCurrency(item.code)}
+                      onClick={() => updateCurrency(item)}
                     >
-                      {item.code} - {item.symbol}
+                      {item.code} - {item.name}
                     </DropdownMenuItem>
                   ))}
                 </ScrollArea>

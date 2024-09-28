@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 
 import "./auth.css";
+import { useNavigate } from "react-router-dom";
 
 const mode = import.meta.env.VITE_MODE;
 const apiUrl =
@@ -45,6 +46,8 @@ const formSchema = z.object({
 const SignupPage = () => {
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -71,14 +74,14 @@ const SignupPage = () => {
           "CF-Access-Client-Secret": cfAuth.clientSecret,
         },
       });
-      window.location.href = "/login";
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
   }
 
   function navigateLogin() {
-    window.location.href = "/login";
+    navigate("/login");
   }
   return (
     <div className="main-auth">

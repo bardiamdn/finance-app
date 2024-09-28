@@ -1,10 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import {BrowserRouter} from 'react-router-dom'
-import App from './App.jsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App.jsx";
+import "./index.css";
+import { ProfileDataProvider } from "./components/ProfileDataProvider.jsx";
 // import * as Sentry from "@sentry/react";
-
 
 // Sentry.init({
 //   dsn: "https://a0ae6da1e878fffb91f67c5f1d37a469@o4507062222323712.ingest.us.sentry.io/4507062228615168",
@@ -24,11 +24,12 @@ import './index.css'
 //   replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
 // });
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ProfileDataProvider>
         <App />
-      </BrowserRouter>
-  </React.StrictMode>,
-)
+      </ProfileDataProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);

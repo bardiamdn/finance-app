@@ -31,24 +31,21 @@ export const BalanceContext = createContext();
 export default function Home() {
   const [balanceData, setBalanceData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [dims, setDims] = useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
 
-  const { token, userData, update, userId } = useContext(ProfileDataContext)
+  const { token, userData, update, userId, isAuthenticated } =
+    useContext(ProfileDataContext);
 
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const config = token
     ? {
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-        "X-User-Timezone": userTimeZone,
-        "CF-Access-Client-Id": cfAuth.clientId,
-        "CF-Access-Client-Secret": cfAuth.clientSecret,
-      },
-    }
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+          "X-User-Timezone": userTimeZone,
+          "CF-Access-Client-Id": cfAuth.clientId,
+          "CF-Access-Client-Secret": cfAuth.clientSecret,
+        },
+      }
     : null;
 
   async function getBalances() {
@@ -72,7 +69,11 @@ export default function Home() {
   }, [userData, update]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
   return (
     <BalanceContext.Provider

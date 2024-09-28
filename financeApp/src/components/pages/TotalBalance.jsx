@@ -10,8 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function TotalBalance() {
   // context variable
-  const { update, userData } = useContext(ProfileDataContext);
-  const { balanceData } = useContext(BalanceContext)
+  const { update, userData, currency } = useContext(ProfileDataContext);
+  const { balanceData } = useContext(BalanceContext);
 
   // loading userData
   const [loading, setLoading] = useState(true);
@@ -40,14 +40,14 @@ export default function TotalBalance() {
             className="lg:text-5xl lg:font-semibold text-3xl"
             style={{ color: "#25ff1dbd" }}
           >
-            {balanceData.totalBalance.toLocaleString()}
+            {balanceData.totalBalance.toLocaleString()} {currency.symbol}
           </p>
         ) : (
           <p
             className="lg:text-5xl lg:font-semibold text-3xl"
             style={{ color: "#ff1d1dbd" }}
           >
-            {balanceData.totalBalance.toLocaleString()}
+            {balanceData.totalBalance.toLocaleString()} {currency.symbol}
           </p>
         )}
       </CardContent>
