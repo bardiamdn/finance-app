@@ -9,24 +9,19 @@ import Signup from "./auth/signup";
 
 //Shadcn
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import { ProfileDialog } from "@/components/pages/profile-dialog";
 import { ProfileDataContext } from "./components/ProfileDataProvider";
+import Header from "./components/pages/Header";
 
 function App() {
   const { mainLoading, isAuthenticated } = useContext(ProfileDataContext);
+
 
   if (mainLoading) {
     <div className="w-full h-full bg-white" />;
   }
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="header">
-        <h2 className="scroll-m-20 pb-2 lg:text-2xl font-semibold tracking-tight">
-          <a href="https://finance.madanilab.site">MadaniLab Finance</a>
-        </h2>
-        {!isAuthenticated ? <ModeToggle /> : <ProfileDialog />}
-      </div>
+      <Header />
 
       <Routes>
         <Route
