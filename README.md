@@ -1,6 +1,5 @@
-# MadaniLab Finance
-
-**MadaniLab.Finance** is a simple, one-page dashboard that helps you analyze your financial data. Track your income and expenses to gain better insights into your financial health.
+# CrunchCat
+**CrunchCat** is a simple, one-page dashboard that helps you analyze your financial data. Track your income and expenses to gain better insights into your financial health.
 
 ## Installation
 
