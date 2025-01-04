@@ -4,10 +4,10 @@ services:
     build: .
       # context: . 
       # dockerfile: Dockerfile
-    image: finance-madanilab-img:1.1
+    image: crunchcat-img:1.2
     ports:
       - "3080:80" # Map port 3080 on the host to port 80 on the container
-    container_name: finance-madanilab
+    container_name: crunchcat
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./public:/usr/share/nginx/html:ro

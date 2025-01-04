@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 
 // context
-import { ProfileDataContext } from "../ProfileDataProvider";
+import { ProfileDataContext } from "../context/ProfileDataProvider";
 
 //components
 import { Skeleton } from "@/components/ui/skeleton";

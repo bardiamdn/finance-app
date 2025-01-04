@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
-import { ProfileDataProvider } from "./components/ProfileDataProvider.jsx";
+import { ProfileDataProvider } from "./context/ProfileDataProvider.jsx";
 // import * as Sentry from "@sentry/react";
 
 // Sentry.init({

@@ -7,7 +7,7 @@ import { BalanceContext } from "@/Home";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ResponsiveContainer, BarChart, Bar } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ProfileDataContext } from "../ProfileDataProvider";
+import { ProfileDataContext } from "../context/ProfileDataProvider";
 
 export default function IncomeExpenseBalance() {
   // context variable

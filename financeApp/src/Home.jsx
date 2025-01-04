@@ -1,30 +1,25 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import axios from "axios";
 import "./Home.scss";
-import { redirect } from "react-router-dom";
 
-import { ProfileDataContext } from "./components/ProfileDataProvider";
+import { ProfileDataContext } from "./context/ProfileDataProvider";
 
 // components
-import { AddTransaction } from "@/components/pages/transaction-dialog";
-import TotalBalance from "./components/pages/TotalBalance";
-import IncomeExpenseBalance from "./components/pages/IncomeExpense";
-import AccountsAnalyticPie from "./components/pages/Accounts";
-import Last90Days from "./components/pages/LastDays";
-import History from "./components/pages/History";
-import CategoryAnalytic from "./components/pages/CategoryAnalytics";
-import IncomeSankey from "./components/pages/IncomeSankey";
-import { CategoryLegend } from "@/components/pages/category-legend";
+import { AddTransaction } from "@/components/transaction-dialog";
+import TotalBalance from "./components/TotalBalance";
+import IncomeExpenseBalance from "./components/IncomeExpense";
+import AccountsAnalyticPie from "./components/Accounts";
+import Last90Days from "./components/LastDays";
+import History from "./components/History";
+import CategoryAnalytic from "./components/CategoryAnalytics";
+import IncomeSankey from "./components/IncomeSankey";
+import { CategoryLegend } from "@/components/category-legend";
 
 const mode = import.meta.env.VITE_MODE;
 const apiUrl =
   mode === "production"
     ? import.meta.env.VITE_API_URL_PROD
     : import.meta.env.VITE_API_URL_DEV;
-const cfAuth = {
-  clientId: import.meta.env.VITE_PUBLIC_CF_Access_Client_Id,
-  clientSecret: import.meta.env.VITE_PUBLIC_CF_Access_Client_Secret,
-};
 
 export const BalanceContext = createContext();
 
@@ -32,21 +27,8 @@ export default function Home() {
   const [balanceData, setBalanceData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const { token, userData, update, userId, isAuthenticated } =
+  const { userData, update, userId, config } =
     useContext(ProfileDataContext);
-
-  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const config = token
-    ? {
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-          "X-User-Timezone": userTimeZone,
-          "CF-Access-Client-Id": cfAuth.clientId,
-          "CF-Access-Client-Secret": cfAuth.clientSecret,
-        },
-      }
-    : null;
 
   async function getBalances() {
     try {
@@ -65,6 +47,8 @@ export default function Home() {
     if (userData) {
       getBalances();
       setLoading(false);
+    } else {
+      console.log("stuck here")
     }
   }, [userData, update]);
 

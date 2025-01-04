@@ -1,49 +1,45 @@
-import { useContext } from "react";
-import { Route, Navigate, Routes } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 
 // Routes
 import Home from "./Home";
-import Login from "./auth/login";
-import Signup from "./auth/signup";
 
 //Shadcn
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { ProfileDataContext } from "./components/ProfileDataProvider";
-import Header from "./components/pages/Header";
+import { ProfileDataContext } from "./context/ProfileDataProvider";
+import Header from "./components/Header";
 
 function App() {
-  const { mainLoading, isAuthenticated } = useContext(ProfileDataContext);
+  const { mainLoading } = useContext(ProfileDataContext);
+  const [cautionDown, setCautionDown] = useState(true);
 
 
   if (mainLoading) {
     <div className="w-full h-full bg-white" />;
   }
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Header />
+    <>
+      <div className={`z-10 absolute top-0 left-0 w-full md:h-[60px] h-[100px] bg-red-500 ${cautionDown ? "" : "-translate-y-full"} transition-all duration-300`}>
+        <span className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-sm text-center">⚠️ <strong>Important Notice:</strong> This is a development/testing site and not a finalized product. Data entered here may be lost or deleted without notice. Please do not submit any sensitive or personal information.</span>
+        <button onClick={() => setCautionDown(false)} className="absolute top-1/2 right-0 transform -translate-x-full -translate-y-1/2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+            <path d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div >
+      <div className={`mainWrapper ${cautionDown ? "md:mt-[60px] mt-[100px]" : "mt-0"} transition-all duration-300`}>
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />
-          }
-        />
-        {isAuthenticated ? (
-          <>
+
+          <Header />
+
+          <Routes>
             <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Navigate to="/home" />} />
-            <Route path="/signup" element={<Navigate to="/home" />} />
-          </>
-        ) : (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </>
-        )}
-      </Routes>
-    </ThemeProvider>
+          </Routes>
+        </ThemeProvider>
+      </div>
+    </>
   );
 }
 

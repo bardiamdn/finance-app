@@ -1,33 +1,6 @@
-import { useContext } from "react"
-import { ModeToggle } from "../ui/mode-toggle"
-import { useTheme } from "../ui/theme-provider"
-import { ProfileDialog } from "./profile-dialog"
-import { ProfileDataContext } from "../ProfileDataProvider"
-
-
-export default function Header() {
-  const { theme } = useTheme()
-  const { isAuthenticated } = useContext(ProfileDataContext)
-
-  const catColor = theme === "dark" ? "#df690f" : "#260000";
-  const eyesOutsideRight = theme === "dark" ? "#fff" : "#FD720A";
-  const eyesOutsideLeft = theme === "dark" ? "#fff" : "#FC720A";
-  const nose = theme === "dark" ? "#260000" : "#FC720A";
-  const teeth1 = theme === "dark" ? "#260000" : "#FA710A";
-  const teeth2 = theme === "dark" ? "#260000" : "#F9700A";
-  const teeth3 = theme === "dark" ? "#260000" : "#F7700A";
-  const teeth4 = theme === "dark" ? "#260000" : "#F9710A";
-  const teeth5 = theme === "dark" ? "#260000" : "#F8700A";
-  const teeth6 = theme === "dark" ? "#260000" : "#F76F0A";
-  const eyesInside = theme === "dark" ? "#260000" : "#270100";
-
-  return (
-    <div className="header">
-      <a href="https://finance.madanilab.site">
-        <h2 className="scroll-m-20 pb-2 lg:text-2xl flex items-center space-x-2 font-semibold tracking-tight">
-          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-            width="50px" viewBox="0 0 798 798" enable-background="new 0 0 798 798" xml:space="preserve">
-            <path fill="#260000" opacity="1.000000" stroke="#FE730A" stroke-width="20"
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              width="50px" viewBox="0 0 798 798" enable-background="new 0 0 798 798" xml:space="preserve">
+            <path fill="#26000" opacity="1.000000" stroke="10" 
               d="
             M585.114136,96.068024 
               C589.191223,86.957291 593.236450,78.224487 596.932434,69.346313 
@@ -139,7 +112,7 @@ export default function Header() {
               C526.575928,670.905151 522.455566,666.263245 516.279297,662.270020 
               C515.195251,665.605286 514.191284,668.694031 513.012756,672.588684 
             z"/>
-            <path fill="#FD720A" opacity="1.000000" stroke="none"
+            <path fill="#FD720A" opacity="1.000000" stroke="none" 
               d="
             M635.578491,477.628357 
               C614.420959,488.485168 592.470398,491.926117 569.869080,485.589905 
@@ -162,7 +135,7 @@ export default function Header() {
               C538.640686,361.608459 528.077454,385.025055 532.497864,407.732635 
               C538.835266,440.287292 575.414246,465.532898 611.908142,450.608002 
             z"/>
-            <path fill="#FC720A" opacity="1.000000" stroke="none"
+            <path fill="#FC720A" opacity="1.000000" stroke="none" 
               d="
             M208.994812,414.035553 
               C208.822739,396.892853 214.556000,382.088959 224.252029,368.979248 
@@ -185,7 +158,7 @@ export default function Header() {
               C231.899155,412.621979 235.171783,438.127197 251.390717,456.727448 
               C267.059906,474.697296 291.793488,480.784729 315.425873,472.048645 
             z"/>
-            <path fill="#FC720A" opacity="1.000000" stroke="none"
+            <path fill="#FC720A" opacity="1.000000" stroke="none" 
               d="
             M494.969910,517.155396 
               C493.820953,532.986084 478.076813,541.720520 464.925476,533.793213 
@@ -195,7 +168,7 @@ export default function Header() {
               C473.786011,503.798584 479.326935,504.810669 484.374573,505.604187 
               C491.639771,506.746307 493.718628,509.323181 494.969910,517.155396 
             z"/>
-            <path fill="#FA710A" opacity="1.000000" stroke="none"
+            <path fill="#FA710A" opacity="1.000000" stroke="none" 
               d="
             M510.951965,592.132568 
               C511.766205,588.136108 512.069946,584.376892 513.505859,581.116150 
@@ -204,7 +177,7 @@ export default function Header() {
               C524.288635,614.828796 516.748535,614.284058 513.615295,606.625122 
               C511.848724,602.306763 511.781250,597.293335 510.951965,592.132568 
             z"/>
-            <path fill="#F9700A" opacity="1.000000" stroke="none"
+            <path fill="#F9700A" opacity="1.000000" stroke="none" 
               d="
             M501.938873,586.345825 
               C499.843445,588.046875 497.986877,590.097656 495.819672,590.508118 
@@ -214,7 +187,7 @@ export default function Header() {
               C478.898926,581.323669 487.149109,580.303955 495.399078,579.447510 
               C502.066833,578.755188 502.239166,578.860535 501.938873,586.345825 
             z"/>
-            <path fill="#F7700A" opacity="1.000000" stroke="none"
+            <path fill="#F7700A" opacity="1.000000" stroke="none" 
               d="
             M502.130676,688.206970 
               C495.201263,690.122925 488.680511,692.141541 482.037109,693.602051 
@@ -224,7 +197,7 @@ export default function Header() {
               C502.658813,677.589478 504.485138,680.034424 505.377502,681.702576 
               C507.009644,684.753540 505.098053,686.682922 502.130676,688.206970 
             z"/>
-            <path fill="#F9710A" opacity="1.000000" stroke="none"
+            <path fill="#F9710A" opacity="1.000000" stroke="none" 
               d="
             M430.926880,604.958008 
               C431.179871,600.974854 430.570099,596.933228 432.072937,593.959045 
@@ -233,14 +206,14 @@ export default function Header() {
               C452.883270,606.039978 446.713593,611.755676 441.581451,617.614319 
               C436.436646,614.824768 431.772491,611.790955 430.926880,604.958008 
             z"/>
-            <path fill="#F8700A" opacity="1.000000" stroke="none"
+            <path fill="#F8700A" opacity="1.000000" stroke="none" 
               d="
             M465.004364,689.755127 
               C458.351196,695.019897 454.472748,693.529724 453.205353,685.518555 
               C452.281311,679.677734 454.396698,674.846680 458.372681,670.689514 
               C465.740814,675.210205 468.304962,682.282471 465.004364,689.755127 
             z"/>
-            <path fill="#F76F0A" opacity="1.000000" stroke="none"
+            <path fill="#F76F0A" opacity="1.000000" stroke="none" 
               d="
             M513.100098,672.185730 
               C514.191284,668.694031 515.195251,665.605286 516.279297,662.270020 
@@ -249,7 +222,7 @@ export default function Header() {
               C513.308044,684.332520 511.470123,681.638977 512.158142,676.465515 
               C512.331970,675.158447 512.722046,673.880188 513.100098,672.185730 
             z"/>
-            <path fill="#270100" opacity="1.000000" stroke="none"
+            <path fill="#270100" opacity="1.000000" stroke="none" 
               d="
             M611.547119,450.745087 
               C575.414246,465.532898 538.835266,440.287292 532.497864,407.732635 
@@ -264,7 +237,7 @@ export default function Header() {
               C649.119446,395.141815 649.225708,406.695892 644.389709,418.314667 
               C638.057373,433.528503 626.664612,443.794861 611.547119,450.745087 
             z"/>
-            <path fill="#270100" opacity="1.000000" stroke="none"
+            <path fill="#270100" opacity="1.000000" stroke="none" 
               d="
             M315.057831,472.177673 
               C291.793488,480.784729 267.059906,474.697296 251.390717,456.727448 
@@ -279,10 +252,3 @@ export default function Header() {
               C336.274750,460.225952 326.817322,467.409912 315.057831,472.177673 
             z"/>
           </svg>
-          <span>CrunchCat</span>
-        </h2>
-      </a>
-      {!isAuthenticated ? <ModeToggle /> : <ProfileDialog />}
-    </div>
-  )
-}

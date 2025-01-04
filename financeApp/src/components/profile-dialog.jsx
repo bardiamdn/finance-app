@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Navigate, redirect, useNavigate } from "react-router-dom";
-import { ProfileDataContext } from "../ProfileDataProvider";
+import { ProfileDataContext } from "../context/ProfileDataProvider";
 import { Moon, Sun, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -52,12 +52,9 @@ const currencyOptions = [
 export function ProfileDialog() {
   const {
     setDialogIsOpen,
-    token,
-    setToken,
     userId,
     setUserId,
     config,
-    setIsAuthenticated,
     setUserData,
     currency,
     setCurrency,
@@ -73,14 +70,9 @@ export function ProfileDialog() {
   const navigate = useNavigate();
 
   const signOut = () => {
-    localStorage.removeItem("FinanceMadaniLabBearerToken");
-    localStorage.removeItem("FinanceMadaniLabUserId");
-    localStorage.removeItem("FinanceMadaniLabUsername");
 
-    setIsAuthenticated(false);
     setUserData(null);
     setUserId(null);
-    setToken(null);
     navigate("/login");
   };
   function getUsername() {
@@ -104,7 +96,7 @@ export function ProfileDialog() {
 
   async function updateCurrency(newCurrency) {
     try {
-      if (token && userId) {
+      if (userId) {
         setCurrency(newCurrency);
 
         const response = await axios.put(

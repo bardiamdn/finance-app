@@ -1,10 +1,10 @@
 import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { format } from "date-fns";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 // context
-import { ProfileDataContext } from "../ProfileDataProvider";
+import { ProfileDataContext } from "../context/ProfileDataProvider";
 
 //components
 import { Badge } from "@/components/ui/badge";
@@ -42,7 +42,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from "@/components/ui/calendar";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "./ui/textarea";
 import {
   Popover,
   PopoverContent,
@@ -57,7 +57,7 @@ const red = "#ff1d1dbd";
 
 export default function History() {
   // context variable
-  const { apiUrl, update, setUpdate, config, userData, token, userId, setDialogIsOpen } =
+  const { apiUrl, update, setUpdate, config, userData, userId, setDialogIsOpen } =
     useContext(ProfileDataContext);
 
   const [historyData, setHistoryData] = useState(null);
@@ -141,7 +141,7 @@ export default function History() {
     const updatedData = { ...rest };
 
     try {
-      if (userId && token && updatedData) {
+      if (userId && updatedData) {
         axios
           .put(
             apiUrl + "/api/transaction/update/" + userId,

@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 
 // context
-import { ProfileDataContext } from "../ProfileDataProvider";
+import { ProfileDataContext } from "../context/ProfileDataProvider";
 
 //components
 import { Skeleton } from "@/components/ui/skeleton";
@@ -35,7 +35,7 @@ import { colors, myColors } from "@/components/ui/colors";
 
 export default function AccountsAnalyticPie() {
   // context variable
-  const { apiUrl, update, config, userData, setUserData, token, userId, dialogIsOpen, setDialogIsOpen } =
+  const { apiUrl, update, config, userData, setUserData, userId, dialogIsOpen, setDialogIsOpen } =
     useContext(ProfileDataContext);
 
   const [accountData, setAccountData] = useState(null);
@@ -87,7 +87,7 @@ export default function AccountsAnalyticPie() {
 
   async function addNewAccount() {
     try {
-      if (token && userId && newAccountData.accountTitle.length > 0) {
+      if (userId && newAccountData.accountTitle.length > 0) {
         await axios
           .put(
             apiUrl + "/api/profile/add-account/" + userId,
@@ -112,7 +112,7 @@ export default function AccountsAnalyticPie() {
 
   async function updateAccount() {
     try {
-      if (token && userId && selectedAccount) {
+      if (userId && selectedAccount) {
         const index = userData.accounts.findIndex(
           (account) => account._id === selectedAccount._id
         );
@@ -143,7 +143,7 @@ export default function AccountsAnalyticPie() {
 
   async function deleteAccount(id) {
     try {
-      if (token && userId) {
+      if (userId) {
         await axios
           .delete(
             `${apiUrl}/api/profile/remove-account/${userId}/?accountId=${id}`,

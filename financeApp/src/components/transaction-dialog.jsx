@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { format } from "date-fns";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 // components
 import { toast } from "sonner";
@@ -27,13 +27,13 @@ import {
 import { Calendar as CalendarIcon } from "lucide-react";
 
 // context
-import { ProfileDataContext } from "../ProfileDataProvider";
+import { ProfileDataContext } from "../context/ProfileDataProvider";
 
 import { FaPlus } from "react-icons/fa";
 
 export function AddTransaction() {
   // context variable
-  const { apiUrl, setUpdate, config, userData, token, userId, dialogIsOpen, setDialogIsOpen } =
+  const { apiUrl, setUpdate, config, userData, userId, dialogIsOpen, setDialogIsOpen } =
     useContext(ProfileDataContext);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -90,7 +90,6 @@ export function AddTransaction() {
     try {
       if (
         userId &&
-        token &&
         (transactionData.categoryId !== "" ||
           transactionData.toAccountId !== "") &&
         transactionData.accountId !== "" &&
