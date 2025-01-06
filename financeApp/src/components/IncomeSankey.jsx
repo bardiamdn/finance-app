@@ -213,7 +213,7 @@ export default function IncomeSankey() {
   }, [userData, update]);
 
   if (loading) {
-    return <Skeleton className="w-[951.3px] h-[650px]"></Skeleton>;
+    return <Skeleton className="w-full h-full"></Skeleton>;
   }
   return (
     <Card className=" w-full h-full flex flex-col align-stretch justify-stretch">

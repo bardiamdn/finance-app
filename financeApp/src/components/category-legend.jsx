@@ -125,7 +125,7 @@ export function CategoryLegend() {
   }
 
   if (loading) {
-    return <Skeleton className="w-[641.3] h-[340px]"></Skeleton>;
+    return <Skeleton className="w-full h-full"></Skeleton>;
   }
   return (
     <Card className="w-full h-full">

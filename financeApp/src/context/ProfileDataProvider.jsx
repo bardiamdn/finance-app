@@ -53,7 +53,6 @@ export function ProfileDataProvider({ children, ...props }) {
           );
           setUserData(response.data.data);
           setCurrency(response.data.data.currency);
-          console.log("UserData available", response.data.data);
         } catch (error) {
           console.error("Error fetching data:", error);
           setUserData(null); // Reset userData on failure

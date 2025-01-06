@@ -10,5 +10,5 @@ services:
     container_name: crunchcat
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./public:/usr/share/nginx/html:ro
+      - ./dist:/usr/share/nginx/html:ro
     restart: always

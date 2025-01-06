@@ -236,7 +236,7 @@ export default function History() {
   }
 
   if (loading && !historyData) {
-    return <Skeleton className="w-[390px] h-[1150px]"></Skeleton>;
+    return <Skeleton className="w-full h-full"></Skeleton>;
   }
   return (
     <Card className="w-full h-full flex flex-col align-stretch justify-stretch">

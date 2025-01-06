@@ -24,7 +24,7 @@ export default function IncomeExpenseBalance() {
   }, [userData, balanceData, update]);
 
   if (loading) {
-    return <Skeleton className="w-[380px] h-[165px]"></Skeleton>;
+    return <Skeleton className="w-full h-full"></Skeleton>;
   }
   return (
     <Card className="w-full h-full flex flex-col items-center">

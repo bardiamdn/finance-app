@@ -186,7 +186,7 @@ export default function AccountsAnalyticPie() {
   };
 
   if (loading) {
-    return <Skeleton className="w-[641.3px] h-[340px]"></Skeleton>;
+    return <Skeleton className="w-full h-full"></Skeleton>;
   }
   return (
     <Card className="w-full h-full">

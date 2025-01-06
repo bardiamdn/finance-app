@@ -12,7 +12,7 @@ import AccountsAnalyticPie from "./components/Accounts";
 import Last90Days from "./components/LastDays";
 import History from "./components/History";
 import CategoryAnalytic from "./components/CategoryAnalytics";
-import IncomeSankey from "./components/IncomeSankey";
+// import IncomeSankey from "./components/IncomeSankey";
 import { CategoryLegend } from "@/components/category-legend";
 
 const mode = import.meta.env.VITE_MODE;
@@ -48,7 +48,7 @@ export default function Home() {
       getBalances();
       setLoading(false);
     } else {
-      console.log("stuck here")
+      console.log("user data unavailable")
     }
   }, [userData, update]);
 
@@ -90,9 +90,9 @@ export default function Home() {
           <div className="category-analytic">
             <CategoryAnalytic />
           </div>
-          <div className="sankey">
+          {/* <div className="sankey">
             <IncomeSankey />
-          </div>
+          </div> */}
           <div className="history">
             <History />
           </div>

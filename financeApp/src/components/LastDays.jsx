@@ -60,7 +60,7 @@ export default function Last90Days() {
   }, [userData, userId, update]);
 
   if (loading) {
-    return <Skeleton className="w-[700px] h-[515px]"></Skeleton>;
+    return <Skeleton className="w-full h-full"></Skeleton>;
   }
   return (
     <Card className="w-full h-full flex flex-col align-stretch justify-stretch">
