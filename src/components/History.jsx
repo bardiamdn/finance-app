@@ -309,9 +309,9 @@ export default function History() {
                           </div>
                         </div>
                       )}
-                      <div className="flex justify-end text-sm text-muted-foreground">
+                      {/* <div className="flex justify-end text-sm text-muted-foreground">
                         Balance: 100
-                      </div>
+                      </div> */}
                       <div
                         className="w-full h-[0px] m-[5px] "
                         style={{

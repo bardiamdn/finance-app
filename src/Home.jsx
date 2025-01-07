@@ -12,8 +12,9 @@ import AccountsAnalyticPie from "./components/Accounts";
 import Last90Days from "./components/LastDays";
 import History from "./components/History";
 import CategoryAnalytic from "./components/CategoryAnalytics";
-// import IncomeSankey from "./components/IncomeSankey";
+import IncomeSankey from "./components/IncomeSankey";
 import { CategoryLegend } from "@/components/category-legend";
+import { useNavigate } from "react-router-dom";
 
 const mode = import.meta.env.VITE_MODE;
 const apiUrl =
@@ -26,6 +27,7 @@ export const BalanceContext = createContext();
 export default function Home() {
   const [balanceData, setBalanceData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const { userData, update, userId, config } =
     useContext(ProfileDataContext);
@@ -51,6 +53,16 @@ export default function Home() {
       console.log("user data unavailable")
     }
   }, [userData, update]);
+
+  useEffect(() => {
+    if (loading) {
+      const timer = setTimeout(() => {
+        navigate('/');
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [loading, navigate]);
 
   if (loading) {
     return (
@@ -90,9 +102,9 @@ export default function Home() {
           <div className="category-analytic">
             <CategoryAnalytic />
           </div>
-          {/* <div className="sankey">
+          <div className="sankey">
             <IncomeSankey />
-          </div> */}
+          </div>
           <div className="history">
             <History />
           </div>

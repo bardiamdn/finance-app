@@ -304,29 +304,29 @@ export default function AccountsAnalyticPie() {
                     onClick={() => {
                       setSelectedAccount(account);
                     }}
-                    className="flex w-full py-[10px] px-[5px] rounded-md hover:bg-accent justify-between"
+                    className="flex sm:flex-row flex-col w-full py-[10px] px-[5px] rounded-md hover:bg-accent justify-between "
                   >
-                    <div className="flex flex-row">
+                    <div className="sm:w-[60%] w-full flex flex-row justify-start items-center ">
                       <div
                         className="flex w-6 h-6 mr-2 rounded-md colorDiv"
                         style={{
                           backgroundColor: `${account.accountColor}`,
                         }}
                       />
-                      <p className="w-[60%] flex justify-start overflow-hidden whitespace-nowrap text-overflow-ellipsis">
+                      <p className="overflow-hidden whitespace-nowrap text-overflow-ellipsis">
                         {account.accountTitle}
                       </p>
                     </div>
                     {account.balance > 0 ? (
                       <p
-                        className="w-[40%] overflow-hidden"
+                        className="sm:w-[40%] w-full overflow-hidden"
                         style={{ color: "#25ff1dbd" }}
                       >
                         {account.balance.toFixed(2)}
                       </p>
                     ) : (
                       <p
-                        className="w-[40%] overflow-hidden"
+                        className="sm:w-[40%] w-full overflow-hidden"
                         style={{ color: "#ff1d1dbd" }}
                       >
                         {account.balance.toFixed(2)}
